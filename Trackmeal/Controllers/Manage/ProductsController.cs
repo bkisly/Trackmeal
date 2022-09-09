@@ -1,14 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Trackmeal.Models;
+using Trackmeal.Services;
 
 namespace Trackmeal.Controllers.Manage
 {
     [Route("Manage/[controller]/[action]")]
     public class ProductsController : Controller
     {
-        [Route("~/Manage/[controller]")]
-        public string Index()
+        private readonly IDataService<Product> _service;
+
+        public ProductsController(IDataService<Product> service)
         {
-            return "Here you can manage products";
+            _service = service;
+        }
+
+        [Route("~/Manage/[controller]")]
+        public async Task<IEnumerable<Product>> Index()
+        {
+            return await _service.GetItemsAsync();
         }
 
         public string New()
@@ -17,9 +26,16 @@ namespace Trackmeal.Controllers.Manage
         }
 
         [HttpGet("{id?}")]
-        public string Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            return $"Showing details of product with id {id}";
+            try
+            {
+                return Json(await _service.GetItemByIdAsync(id));
+            }
+            catch(InvalidOperationException)
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet("{id?}")]

@@ -15,9 +15,9 @@ namespace Trackmeal.Controllers.Manage
         }
 
         [Route("~/Manage/[controller]")]
-        public async Task<IEnumerable<Product>> Index()
+        public async Task<IActionResult> Index()
         {
-            return await _service.GetItemsAsync();
+            return View(await _service.GetItemsAsync());
         }
 
         public string New()

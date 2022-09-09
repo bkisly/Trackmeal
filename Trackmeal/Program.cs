@@ -13,10 +13,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // Test data services
-// builder.Services.AddSingleton<IDataService<Product>, TestProductsDataService>();
+builder.Services.AddSingleton<IDataService<Product>, TestProductsDataService>();
 
 // Real data services
-builder.Services.AddScoped<IDataService<Product>, ProductsDataService>();
+// builder.Services.AddScoped<IDataService<Product>, ProductsDataService>();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();

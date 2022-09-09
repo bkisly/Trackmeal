@@ -30,7 +30,7 @@ namespace Trackmeal.Controllers.Manage
         {
             try
             {
-                return Json(await _service.GetItemByIdAsync(id));
+                return View(await _service.GetItemByIdAsync(id));
             }
             catch(InvalidOperationException)
             {

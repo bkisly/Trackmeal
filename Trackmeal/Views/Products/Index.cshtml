@@ -4,6 +4,7 @@
 }
 
 <h2>@ViewData["Title"]</h2>
+<a class="btn btn-primary" asp-action="New">New product</a>
 
 @if (Model.Any())
 {
@@ -19,7 +20,7 @@
             @foreach (var product in Model)
             {
                 <tr>
-                    <td>@Html.ActionLink(product.Name, "Details", "Products", new { id = product.Id })</td>
+                    <td>@Html.ActionLink(product.Name, "Edit", "Products", new { id = product.Id })</td>
                     <td>@product.Description</td>
                     <td>@product.Price</td>
                 </tr>

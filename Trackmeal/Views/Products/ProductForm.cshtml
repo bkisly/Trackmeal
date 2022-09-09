@@ -1,0 +1,26 @@
+﻿@model Product
+@{
+    ViewData["Title"] = Model.Id == 0 ? "New product" : "Edit product";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Save" method="post">
+    <div class="form-group form-floating">
+        @Html.TextBoxFor(p => p.Name, new { @class = "form-control", placeholder = "Name" })
+        @Html.LabelFor(p => p.Name)
+    </div>
+    <div class="form-group form-floating">
+        @Html.TextBoxFor(p => p.Description, new { @class = "form-control", placeholder = "Description" })
+        @Html.LabelFor(p => p.Description)
+    </div>
+    <div class="form-group form-floating">
+        @Html.TextBoxFor(p => p.Price, new { @class = "form-control", placeholder = "Price" })
+        @Html.LabelFor(p => p.Price)
+    </div>
+    
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(p => p.Id)
+    
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>

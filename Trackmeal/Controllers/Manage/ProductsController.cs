@@ -20,28 +20,31 @@ namespace Trackmeal.Controllers.Manage
             return View(await _service.GetItemsAsync());
         }
 
-        public string New()
+        public IActionResult New()
         {
-            return "Adding new product";
+            return View("ProductForm", new Product());
         }
 
         [HttpGet("{id?}")]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             try
             {
-                return View(await _service.GetItemByIdAsync(id));
+                return View("ProductForm", await _service.GetItemByIdAsync(id));
             }
-            catch(InvalidOperationException)
+            catch (InvalidOperationException)
             {
                 return NotFound();
             }
         }
 
-        [HttpGet("{id?}")]
-        public string Edit(int id)
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Save(Product product)
         {
-            return $"Editing product with id {id}";
+            if (product.Id == 0) await _service.AddItemAsync(product);
+            else await _service.EditItemAsync(product.Id, product);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

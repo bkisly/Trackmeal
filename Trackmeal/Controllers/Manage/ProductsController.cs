@@ -17,6 +17,12 @@ namespace Trackmeal.Controllers.Manage
         }
 
         [HttpGet("{id?}")]
+        public string Details(int id)
+        {
+            return $"Showing details of product with id {id}";
+        }
+
+        [HttpGet("{id?}")]
         public string Edit(int id)
         {
             return $"Editing product with id {id}";

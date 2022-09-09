@@ -1,0 +1,26 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Trackmeal.Data;
+using Trackmeal.Models;
+
+namespace Trackmeal.Services
+{
+    public class ProductsDataService : IDataService<Product>
+    {
+        private readonly ApplicationDbContext _context;
+
+        public ProductsDataService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<Product[]> GetItemsAsync()
+        {
+            return await _context.Products.ToArrayAsync();
+        }
+
+        public async Task<Product> GetItemByIdAsync(int id)
+        {
+            return await _context.Products.SingleAsync(p => p.Id == id);
+        }
+    }
+}

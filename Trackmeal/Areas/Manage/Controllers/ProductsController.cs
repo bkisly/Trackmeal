@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Trackmeal.Models;
+using Trackmeal.Areas.Manage.Models;
 using Trackmeal.Services;
 
-namespace Trackmeal.Controllers.Manage
+namespace Trackmeal.Areas.Manage.Controllers
 {
-    [Route("Manage/[controller]/[action]")]
+    [Area("Manage")]
     public class ProductsController : Controller
     {
         private readonly IDataService<Product> _service;
@@ -14,7 +14,6 @@ namespace Trackmeal.Controllers.Manage
             _service = service;
         }
 
-        [Route("~/Manage/[controller]")]
         public async Task<IActionResult> Index()
         {
             return View(await _service.GetItemsAsync());
@@ -25,7 +24,6 @@ namespace Trackmeal.Controllers.Manage
             return View("ProductForm", new Product());
         }
 
-        [HttpGet("{id?}")]
         public async Task<IActionResult> Edit(int id)
         {
             try

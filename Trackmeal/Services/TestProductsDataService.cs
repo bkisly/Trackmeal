@@ -1,4 +1,4 @@
-﻿using Trackmeal.Models;
+﻿using Trackmeal.Areas.Manage.Models;
 
 namespace Trackmeal.Services
 {

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Trackmeal.Areas.Manage.Models;
 using Trackmeal.Data;
-using Trackmeal.Models;
 using Trackmeal.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,6 +43,11 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapAreaControllerRoute(
+    name: "ManageArea",
+    areaName: "Manage",
+    pattern: "Manage/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

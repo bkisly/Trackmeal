@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Trackmeal.Models
+namespace Trackmeal.Areas.Manage.Models
 {
     public class Product
     {

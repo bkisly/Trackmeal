@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Trackmeal.Areas.Manage.Models;
 using Trackmeal.Data;
-using Trackmeal.Models;
 
 namespace Trackmeal.Services
 {

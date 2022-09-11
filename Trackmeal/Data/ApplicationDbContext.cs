@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Trackmeal.Areas.Manage.Models;
+using Trackmeal.Models;
 
 namespace Trackmeal.Data
 {

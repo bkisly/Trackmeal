@@ -1,4 +1,4 @@
-﻿@model Trackmeal.Areas.Manage.Models.Product
+﻿@model Trackmeal.ViewModels.ProductFormViewModel
 @{
     Layout = "_Layout";
     ViewData["Title"] = Model.Id == 0 ? "New product" : "Edit product";
@@ -11,6 +11,7 @@
     <div class="form-group form-floating">
         @Html.TextBoxFor(p => p.Name, new { @class = "form-control", placeholder = "Name" })
         @Html.LabelFor(p => p.Name)
+        @Html.ValidationMessageFor(p => p.Name)
     </div>
     <div class="form-group form-floating">
         @Html.TextBoxFor(p => p.Description, new { @class = "form-control", placeholder = "Description" })
@@ -19,10 +20,17 @@
     <div class="form-group form-floating">
         @Html.TextBoxFor(p => p.Price, new { @class = "form-control", placeholder = "Price" })
         @Html.LabelFor(p => p.Price)
+        @Html.ValidationMessageFor(p => p.Price)
     </div>
 
     @Html.AntiForgeryToken()
     @Html.HiddenFor(p => p.Id)
 
     <button class="btn btn-primary" type="submit">Submit</button>
+}
+
+
+@section Scripts
+{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }

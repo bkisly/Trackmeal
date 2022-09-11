@@ -16,3 +16,21 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/*Bootstrap form customization*/
+
+.form-group {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/*Validation styling*/
+
+.input-validation-error {
+    border: 2px solid red;
+    background-color: #fee;
+}
+
+.field-validation-error {
+    color: red;
+}

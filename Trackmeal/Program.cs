@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Trackmeal.Areas.Manage.Models;
 using Trackmeal.Data;
+using Trackmeal.Models;
 using Trackmeal.Services;
 
 var builder = WebApplication.CreateBuilder(args);

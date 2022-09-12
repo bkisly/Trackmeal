@@ -5,16 +5,17 @@
 }
 
 <h2>@ViewData["Title"]</h2>
-@Html.ActionLink("New product", "New", "Products", new { }, new { @class = "btn btn-primary" })
+@Html.ActionLink("New product", "New", "Products", new { }, new { @class = "btn btn-primary form-group" })
 
 @if (Model.Any())
 {
-    <table class="table table-hover table-bordered">
+    <table class="table table-hover table-bordered form-group" id="products">
         <thead class="table-primary">
         <tr>
             <th>Name</th>
             <th>Description</th>
             <th>Price</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody>
@@ -24,6 +25,7 @@
                     <td>@Html.ActionLink(product.Name, "Edit", "Products", new { id = product.Id })</td>
                     <td>@product.Description</td>
                     <td>@product.Price</td>
+                    <td><button class="btn btn-danger js-delete" data-product-id="@product.Id">Delete</button></td>
                 </tr>
             }
         </tbody>
@@ -32,4 +34,9 @@
 else
 {
     <p>There are no products in the database.</p>
+}
+
+@section Scripts
+{
+    <script src="~/js/deleteProduct.js"></script>
 }

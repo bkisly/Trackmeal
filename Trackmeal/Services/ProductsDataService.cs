@@ -4,7 +4,7 @@ using Trackmeal.Models;
 
 namespace Trackmeal.Services
 {
-    public class ProductsDataService : IDataService<Product>
+    public class ProductsDataService : IModifiableDataService<Product>
     {
         private readonly ApplicationDbContext _context;
 
@@ -35,6 +35,13 @@ namespace Trackmeal.Services
             productToUpdate.Name = newItemData.Name;
             productToUpdate.Description = newItemData.Description;
             productToUpdate.Price = newItemData.Price;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteItemAsync(int id)
+        {
+            var productToDelete = await _context.Products.SingleAsync(p => p.Id == id);
+            _context.Products.Remove(productToDelete);
             await _context.SaveChangesAsync();
         }
     }

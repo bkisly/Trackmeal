@@ -9,9 +9,9 @@ namespace Trackmeal.Areas.Manage.Controllers
     [Area("Manage")]
     public class ProductsController : Controller
     {
-        private readonly IDataService<Product> _service;
+        private readonly IModifiableDataService<Product> _service;
 
-        public ProductsController(IDataService<Product> service)
+        public ProductsController(IModifiableDataService<Product> service)
         {
             _service = service;
         }
@@ -47,6 +47,13 @@ namespace Trackmeal.Areas.Manage.Controllers
             if (product.Id == 0) await _service.AddItemAsync(product);
             else await _service.EditItemAsync(product.Id, product);
 
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _service.DeleteItemAsync(id);
             return RedirectToAction(nameof(Index));
         }
     }

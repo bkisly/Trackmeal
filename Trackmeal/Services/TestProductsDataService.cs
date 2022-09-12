@@ -2,7 +2,7 @@
 
 namespace Trackmeal.Services
 {
-    public class TestProductsDataService : IDataService<Product>
+    public class TestProductsDataService : IModifiableDataService<Product>
     {
         private readonly List<Product> _products = new()
         {
@@ -11,6 +11,11 @@ namespace Trackmeal.Services
             new Product { Id = 3, Name = "Coffee", Description = "Tasty coffee", Price = 3.99M },
         };
 
+        public Task<Product[]> GetItemsAsync()
+        {
+            return Task.FromResult(_products.ToArray());
+        }
+
         public Task<Product> GetItemByIdAsync(int id)
         {
             return Task.FromResult(_products.Single(p => p.Id == id));
@@ -18,7 +23,7 @@ namespace Trackmeal.Services
 
         public Task AddItemAsync(Product item)
         {
-            item.Id = _products.Select(p => p.Id).Max() + 1;
+            item.Id = _products.Any() ? _products.Select(p => p.Id).Max() + 1 : 1;
             _products.Add(item);
             return Task.CompletedTask;
         }
@@ -32,9 +37,12 @@ namespace Trackmeal.Services
             return Task.CompletedTask;
         }
 
-        public Task<Product[]> GetItemsAsync()
+        public Task DeleteItemAsync(int id)
         {
-            return Task.FromResult(_products.ToArray());
+            var productToDelete = _products.Single(p => p.Id == id);
+            _products.Remove(productToDelete);
+            return Task.CompletedTask;
         }
+
     }
 }

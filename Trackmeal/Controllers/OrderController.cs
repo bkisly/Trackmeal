@@ -25,8 +25,8 @@ namespace Trackmeal.Controllers
             throw new NotImplementedException();
         }
 
-        // Displays order summary
-        public IActionResult Summary()
+        // Displays cart and order summary, provides an option to submit an order
+        public IActionResult Cart()
         {
             throw new NotImplementedException();
         }

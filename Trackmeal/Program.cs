@@ -14,9 +14,11 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // Test data services
 builder.Services.AddSingleton<IModifiableDataService<Product>, TestProductsDataService>();
+builder.Services.AddSingleton<ICartDataService, TestCartDataService>();
 
 // Real data services
 // builder.Services.AddScoped<IModifiableDataService<Product>, ProductsDataService>();
+// builder.Services.AddScoped<ICartDataService, CartDataService>();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();

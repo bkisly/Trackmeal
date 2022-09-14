@@ -1,28 +1,45 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Trackmeal.Models;
+using Trackmeal.Services;
+using Trackmeal.ViewModels;
 
 namespace Trackmeal.Controllers
 {
     public class OrderController : Controller
     {
-        // Gets the list of all products with the possibility to add them
-        public IActionResult Index()
+        private readonly ICartDataService _service;
+        private readonly IModifiableDataService<Product> _productsService;
+
+        public OrderController(ICartDataService service, IModifiableDataService<Product> productsService)
         {
-            return View();
+            _service = service;
+            _productsService = productsService;
+        }
+
+        // Gets the list of all products with the possibility to add them
+        public async Task<IActionResult> Index()
+        {
+            return View(new OrderViewModel
+            {
+                Products = await _productsService.GetItemsAsync(),
+                CartEntries = await _service.GetItemsAsync()
+            });
         }
 
         // Creates a new CartEntry if the product doesn't exist, otherwise increases its amount
         [HttpPost]
         public IActionResult AddProduct(int productId)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Adding product of id {productId}");
+            return RedirectToAction(nameof(Index));
         }
 
         // Decreases the amount of product in a CartEntry, and removes it if the amount equals 0
-        [HttpDelete]
+        [HttpPost]
         public IActionResult RemoveProduct(int productId)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Removing product of id {productId}");
+            return RedirectToAction(nameof(Index));
         }
 
         // Displays cart and order summary, provides an option to submit an order

@@ -1,0 +1,79 @@
+﻿@model Trackmeal.ViewModels.OrderViewModel
+@{
+    ViewData["Title"] = "Make an order";
+}
+
+<h2>Make an order</h2>
+
+@if (Model.Products.Any())
+{
+    <a class="btn btn-primary" asp-action="Cart">View cart</a>
+
+    <table id="products" class="table table-bordered table-hover">
+        <thead class="table-primary">
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Order</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+                <td>
+                    <ul class="list-unstyled list-group list-group-horizontal">
+                        @{
+                            int amount = @Model.ProductAmountInEntry(product);
+
+                            if (amount > 0 || true)
+                            {
+                                <li>                                
+                                    <form asp-action="RemoveProduct" method="post" asp-route-productId="@product.Id">
+                                        <button type="submit" class="btn btn-danger">-</button>
+                                    </form>
+                                </li>
+
+                            }
+
+                            <li>
+                                <p>@amount</p>
+                            </li>
+
+                            if (amount < 100)
+                            {
+                                <li>
+                                    <form asp-action="AddProduct" method="post" asp-route-productId="@product.Id">
+                                        <button class="btn btn-primary" type="submit">+</button>
+                                    </form>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Currently there are no products in the database. Making an order is not possible at the moment.</p>
+}
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#products").on("click", ".js-delete", function () {
+                let button = $(this);
+                $.ajax({
+                    url: "/Order/RemoveProduct/" + button.attr("data-product-id"),
+                    method: "DELETE",
+                })
+            });
+        });
+    </script>
+}

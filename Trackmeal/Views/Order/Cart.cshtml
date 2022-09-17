@@ -1,0 +1,44 @@
+﻿@model Trackmeal.ViewModels.CartViewModel
+@{
+    ViewData["Title"] = "Cart";
+}
+
+<h2>Your cart</h2>
+<a class="btn btn-primary" asp-action="Index">Back to the products</a>
+
+@if (Model.CartEntries.Any())
+{
+    <button class="btn btn-danger" id="clear-btn">Clear cart</button>
+    <p>Showing @Model.CartEntries.Count() products that are added to the cart</p>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-primary">
+        <tr>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Total price</th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (var entry in Model.CartEntries)
+            {
+                <tr>
+                    <td>@entry.Product.Name</td>
+                    <td>@entry.Amount</td>
+                    <td>@Model.GetTotalEntryPrice(entry)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h3>Total price: @Model.TotalPrice</h3>
+}
+else
+{
+    <p>There are no products in the cart yet.</p>
+}
+
+@section Scripts
+{
+    <script src="~/js/cart.js"></script>
+}

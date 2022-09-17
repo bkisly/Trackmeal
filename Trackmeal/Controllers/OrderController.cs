@@ -63,9 +63,16 @@ namespace Trackmeal.Controllers
         }
 
         // Displays cart and order summary, provides an option to submit an order
-        public IActionResult Cart()
+        public async Task<IActionResult> Cart()
         {
-            throw new NotImplementedException();
+            return View(new CartViewModel { CartEntries = await _service.GetItemsAsync() });
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> ClearCart()
+        {
+            await _service.ClearCartAsync();
+            return NoContent();
         }
 
         // Creates a new Order object and adds it to the database

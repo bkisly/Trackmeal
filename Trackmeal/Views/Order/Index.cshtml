@@ -26,30 +26,11 @@
                 <td>
                     <ul class="list-unstyled list-group list-group-horizontal">
                         @{
-                            int amount = @Model.ProductAmountInEntry(product);
+                            var amountInCart = @Model.ProductAmountInCart(product);
 
-                            if (amount > 0 || true)
-                            {
-                                <li>                                
-                                    <form asp-action="RemoveProduct" method="post" asp-route-productId="@product.Id">
-                                        <button type="submit" class="btn btn-danger">-</button>
-                                    </form>
-                                </li>
-
-                            }
-
-                            <li>
-                                <p>@amount</p>
-                            </li>
-
-                            if (amount < 100)
-                            {
-                                <li>
-                                    <form asp-action="AddProduct" method="post" asp-route-productId="@product.Id">
-                                        <button class="btn btn-primary" type="submit">+</button>
-                                    </form>
-                                </li>
-                            }
+                            <li><button class="btn btn-danger js-delete" data-product-id="@product.Id" disabled="@(amountInCart == 0)">-</button></li>
+                            <li><p class="js-amount">@amountInCart</p></li>
+                            <li><button class="btn btn-primary js-add" data-product-id="@product.Id" disabled="@(amountInCart == 100)">+</button></li>
                         }
                     </ul>
                 </td>
@@ -65,15 +46,5 @@ else
 
 @section Scripts
 {
-    <script>
-        $(document).ready(function () {
-            $("#products").on("click", ".js-delete", function () {
-                let button = $(this);
-                $.ajax({
-                    url: "/Order/RemoveProduct/" + button.attr("data-product-id"),
-                    method: "DELETE",
-                })
-            });
-        });
-    </script>
+    <script src="~/js/order.js"></script>
 }

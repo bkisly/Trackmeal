@@ -28,18 +28,38 @@ namespace Trackmeal.Controllers
 
         // Creates a new CartEntry if the product doesn't exist, otherwise increases its amount
         [HttpPost]
-        public IActionResult AddProduct(int productId)
+        public async Task<IActionResult> AddProduct(int id)
         {
-            Console.WriteLine($"Adding product of id {productId}");
-            return RedirectToAction(nameof(Index));
+            Console.WriteLine($"Adding product of id {id}");
+
+            try
+            {
+                await _service.AddProductAsync(id);
+            }
+            catch (InvalidOperationException)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
 
         // Decreases the amount of product in a CartEntry, and removes it if the amount equals 0
-        [HttpPost]
-        public IActionResult RemoveProduct(int productId)
+        [HttpDelete]
+        public async Task<IActionResult> RemoveProduct(int id)
         {
-            Console.WriteLine($"Removing product of id {productId}");
-            return RedirectToAction(nameof(Index));
+            Console.WriteLine($"Removing product of id {id}");
+
+            try
+            {
+                await _service.RemoveProductAsync(id);
+            }
+            catch (InvalidOperationException)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
 
         // Displays cart and order summary, provides an option to submit an order

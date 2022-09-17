@@ -7,12 +7,12 @@ namespace Trackmeal.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly ICartDataService _service;
+        private readonly ICartDataService _cartService;
         private readonly IModifiableDataService<Product> _productsService;
 
         public OrderController(ICartDataService service, IModifiableDataService<Product> productsService)
         {
-            _service = service;
+            _cartService = service;
             _productsService = productsService;
         }
 
@@ -22,57 +22,14 @@ namespace Trackmeal.Controllers
             return View(new OrderViewModel
             {
                 Products = await _productsService.GetItemsAsync(),
-                CartEntries = await _service.GetItemsAsync()
+                CartEntries = await _cartService.GetItemsAsync()
             });
-        }
-
-        // Creates a new CartEntry if the product doesn't exist, otherwise increases its amount
-        [HttpPost]
-        public async Task<IActionResult> AddProduct(int id)
-        {
-            Console.WriteLine($"Adding product of id {id}");
-
-            try
-            {
-                await _service.AddProductAsync(id);
-            }
-            catch (InvalidOperationException)
-            {
-                return BadRequest();
-            }
-
-            return Ok();
-        }
-
-        // Decreases the amount of product in a CartEntry, and removes it if the amount equals 0
-        [HttpDelete]
-        public async Task<IActionResult> RemoveProduct(int id)
-        {
-            Console.WriteLine($"Removing product of id {id}");
-
-            try
-            {
-                await _service.RemoveProductAsync(id);
-            }
-            catch (InvalidOperationException)
-            {
-                return BadRequest();
-            }
-
-            return Ok();
         }
 
         // Displays cart and order summary, provides an option to submit an order
         public async Task<IActionResult> Cart()
         {
-            return View(new CartViewModel { CartEntries = await _service.GetItemsAsync() });
-        }
-
-        [HttpDelete]
-        public async Task<IActionResult> ClearCart()
-        {
-            await _service.ClearCartAsync();
-            return NoContent();
+            return View(new CartViewModel { CartEntries = await _cartService.GetItemsAsync() });
         }
 
         // Creates a new Order object and adds it to the database

@@ -28,9 +28,13 @@
                         @{
                             var amountInCart = @Model.ProductAmountInCart(product);
 
-                            <li><button class="btn btn-danger js-delete" data-product-id="@product.Id" disabled="@(amountInCart == 0)">-</button></li>
+                            <li>
+                                <button class="btn btn-danger js-delete" data-product-id="@product.Id" disabled="@(amountInCart == 0)">-</button>
+                            </li>
                             <li><p class="js-amount">@amountInCart</p></li>
-                            <li><button class="btn btn-primary js-add" data-product-id="@product.Id" disabled="@(amountInCart == 100)">+</button></li>
+                            <li>
+                                <button class="btn btn-primary js-add" data-product-id="@product.Id" disabled="@(amountInCart == 100)">+</button>
+                            </li>
                         }
                     </ul>
                 </td>

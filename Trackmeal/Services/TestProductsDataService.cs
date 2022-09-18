@@ -43,6 +43,5 @@ namespace Trackmeal.Services
             _products.Remove(productToDelete);
             return Task.CompletedTask;
         }
-
     }
 }

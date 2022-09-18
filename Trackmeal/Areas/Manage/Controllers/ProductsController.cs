@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Trackmeal.Models;
 using Trackmeal.Services;
 using Trackmeal.ViewModels;

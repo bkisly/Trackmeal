@@ -15,6 +15,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 // Test data services
 builder.Services.AddSingleton<IModifiableDataService<Product>, TestProductsDataService>();
 builder.Services.AddSingleton<ICartDataService, TestCartDataService>();
+builder.Services.AddSingleton<IModifiableDataService<Order>, TestOrderDataService>();
 
 // Real data services
 // builder.Services.AddScoped<IModifiableDataService<Product>, ProductsDataService>();

@@ -18,6 +18,10 @@ namespace Trackmeal.Services
 
         public Task AddItemAsync(Order item)
         {
+            item.Id = _orders.Count > 0 ? _orders.Select(o => o.Id).Max() + 1 : 1;
+            item.DateOrdered = DateTime.Now;
+            item.Token = Guid.NewGuid();
+
             _orders.Add(item);
             return Task.CompletedTask;
         }

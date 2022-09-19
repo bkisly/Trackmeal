@@ -9,11 +9,14 @@ namespace Trackmeal.Controllers
     {
         private readonly ICartDataService _cartService;
         private readonly IModifiableDataService<Product> _productsService;
+        private readonly IModifiableDataService<Order> _orderService;
 
-        public OrderController(ICartDataService service, IModifiableDataService<Product> productsService)
+        public OrderController(ICartDataService service, 
+            IModifiableDataService<Product> productsService, IModifiableDataService<Order> orderService)
         {
             _cartService = service;
             _productsService = productsService;
+            _orderService = orderService;
         }
 
         // Gets the list of all products with the possibility to add them
@@ -34,9 +37,25 @@ namespace Trackmeal.Controllers
 
         // Creates a new Order object and adds it to the database
         [HttpPost]
-        public IActionResult SubmitOrder()
+        public async Task<IActionResult> Submit()
         {
-            throw new NotImplementedException();
+            var order = new Order { Entries = (await _cartService.GetItemsAsync()).ToList() };
+            await _orderService.AddItemAsync(order);
+            await _cartService.ClearCartAsync();
+
+            return RedirectToAction(nameof(Summary), new { id = order.Id });
+        }
+
+        public async Task<IActionResult> Summary(long id)
+        {
+            try
+            {
+                return View(await _orderService.GetItemByIdAsync((int)id));
+            }
+            catch (InvalidOperationException)
+            {
+                return NotFound();
+            }
         }
     }
 }

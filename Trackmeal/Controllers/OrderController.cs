@@ -46,11 +46,11 @@ namespace Trackmeal.Controllers
             return RedirectToAction(nameof(Summary), new { id = order.Id });
         }
 
-        public async Task<IActionResult> Summary(long id)
+        public async Task<IActionResult> Summary(int id)
         {
             try
             {
-                return View(await _orderService.GetItemByIdAsync((int)id));
+                return View(await _orderService.GetItemByIdAsync(id));
             }
             catch (InvalidOperationException)
             {

@@ -12,7 +12,7 @@ using Trackmeal.Data;
 namespace Trackmeal.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220918134348_AddOrderModel")]
+    [Migration("20220919221125_AddOrderModel")]
     partial class AddOrderModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -237,8 +237,8 @@ namespace Trackmeal.Data.Migrations
                     b.Property<byte>("Amount")
                         .HasColumnType("tinyint");
 
-                    b.Property<long?>("OrderId")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -254,11 +254,11 @@ namespace Trackmeal.Data.Migrations
 
             modelBuilder.Entity("Trackmeal.Models.Order", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("DateOrdered")
                         .HasColumnType("datetime2");

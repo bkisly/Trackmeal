@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Manage";
+}
+
+<div class="text-center">
+    <h2>Trackmeal management center</h2>
+    <h4>This is the place where you can manage product and orders</h4>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-primary" asp-area="Manage" asp-controller="Products" asp-action="Index">
+                    <strong>Products</strong>
+                </a>
+                <p>
+                    Here you are able to manage the products that are available to order by customers.
+                    You are able to create, edit and delete products and give them specific name, description
+                    and price.
+                </p>
+            </div>
+            <div class="col">
+                <a class="btn btn-success"><strong>Orders</strong></a>
+                <p>
+                    This is the place where you can manage orders made by customers. You are able to
+                    modify state of active orders and view their details.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -9,17 +9,17 @@ namespace Trackmeal.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<long>(
+            migrationBuilder.AddColumn<int>(
                 name: "OrderId",
                 table: "Cart",
-                type: "bigint",
+                type: "int",
                 nullable: true);
 
             migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Token = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DateOrdered = table.Column<DateTime>(type: "datetime2", nullable: false)

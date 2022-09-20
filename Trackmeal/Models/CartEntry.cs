@@ -7,5 +7,6 @@ namespace Trackmeal.Models
         public short Id { get; set; }
         [Range(0, 100)] public byte Amount { get; set; }
         public Product Product { get; set; } = null!;
+        public int? OrderId { get; set; }
     }
 }

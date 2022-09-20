@@ -1,4 +1,5 @@
-﻿using Trackmeal.Services;
+﻿using Trackmeal.Models;
+using Trackmeal.Services;
 
 namespace Trackmeal.UnitTests
 {
@@ -125,6 +126,25 @@ namespace Trackmeal.UnitTests
             entries = await cartService.GetItemsAsync();
 
             Assert.Empty(entries);
+        }
+
+        [Fact]
+        public async Task GetCartEntriesAfterSubmittedOrder()
+        {
+            await using var context = Helpers.GetInMemoryContext("GetEntriesAfterSubmitted_TestDb");
+            var cartService = await Helpers.GetTestCartServiceAsync(context);
+            var orderService = new OrderDataService(context);
+            var entriesInCart = await cartService.GetItemsAsync();
+
+            await orderService.AddItemAsync(new Order
+            {
+                Id = 1,
+                Entries = entriesInCart.ToList()
+            });
+
+            await cartService.ClearCartAsync();
+
+            Assert.Empty(await cartService.GetItemsAsync());
         }
     }
 }

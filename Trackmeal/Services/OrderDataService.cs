@@ -27,7 +27,7 @@ namespace Trackmeal.Services
         {
             item.DateOrdered = DateTime.Now;
             item.Token = Guid.NewGuid();
-            
+
             await _context.Orders.AddAsync(item);
             await _context.SaveChangesAsync();
         }

@@ -42,5 +42,21 @@ namespace Trackmeal.UnitTests
 
             return productsService;
         }
+
+        public static async Task<ICartDataService> GetTestCartServiceAsync(ApplicationDbContext context)
+        {
+            var cartService = new CartDataService(context, await GetTestProductsServiceAsync(context));
+
+            await cartService.AddProductAsync(1);
+            await cartService.AddProductAsync(1);
+            await cartService.AddProductAsync(2);
+            await cartService.AddProductAsync(2);
+            await cartService.AddProductAsync(2);
+            await cartService.AddProductAsync(2);
+            await cartService.AddProductAsync(2);
+            await cartService.AddProductAsync(3);
+
+            return cartService;
+        }
     }
 }

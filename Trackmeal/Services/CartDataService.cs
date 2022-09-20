@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Trackmeal.Data;
 using Trackmeal.Models;
 
@@ -17,7 +18,7 @@ namespace Trackmeal.Services
 
         public async Task<CartEntry[]> GetItemsAsync()
         {
-            return await _context.Cart.ToArrayAsync();
+            return await _context.Cart.Where(entry => !entry.OrderId.HasValue).ToArrayAsync();
         }
 
         public async Task<CartEntry> GetItemByIdAsync(int id)
@@ -63,7 +64,7 @@ namespace Trackmeal.Services
 
         public async Task ClearCartAsync()
         {
-            var entriesToRemove = await _context.Cart.ToArrayAsync();
+            var entriesToRemove = await _context.Cart.Where(entry => !entry.OrderId.HasValue).ToArrayAsync();
             foreach (var entry in entriesToRemove)
                 _context.Cart.Remove(entry);
 

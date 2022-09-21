@@ -23,7 +23,7 @@
                 <tr>
                     <td>@order.Id</td>
                     <td>@order.DateOrdered</td>
-                    <td>@order.Entries.Sum(entry => entry.Amount * entry.Product.Price)</td>
+                    <td>@order.TotalPrice</td>
                     <td>
                         <a class="btn btn-light">View details...</a>
                     </td>

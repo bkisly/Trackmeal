@@ -32,7 +32,7 @@ namespace Trackmeal.Controllers
         // Displays cart and order summary, provides an option to submit an order
         public async Task<IActionResult> Cart()
         {
-            return View(new CartViewModel { CartEntries = await _cartService.GetItemsAsync() });
+            return View(await _cartService.GetItemsAsync());
         }
 
         // Creates a new Order object and adds it to the database

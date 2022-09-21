@@ -8,5 +8,7 @@ namespace Trackmeal.Models
         [Range(0, 100)] public byte Amount { get; set; }
         public Product Product { get; set; } = null!;
         public int? OrderId { get; set; }
+
+        public decimal TotalPrice => Product.Price * Amount;
     }
 }

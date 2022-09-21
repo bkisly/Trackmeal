@@ -6,5 +6,7 @@
         public Guid Token { get; set; }
         public DateTime DateOrdered { get; set; }
         public List<CartEntry> Entries { get; set; } = null!;
+
+        public decimal TotalPrice => Entries.Sum(entry => entry.TotalPrice);
     }
 }

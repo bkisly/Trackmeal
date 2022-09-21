@@ -1,4 +1,4 @@
-﻿@model Trackmeal.ViewModels.CartViewModel
+﻿@model IEnumerable<CartEntry>
 @{
     ViewData["Title"] = "Cart";
 }
@@ -6,10 +6,10 @@
 <h2>Your cart</h2>
 <a class="btn btn-primary" asp-action="Index">Back to the products</a>
 
-@if (Model.CartEntries.Any())
+@if (Model.Any())
 {
     <button class="btn btn-danger" id="clear-btn">Clear cart</button>
-    <p>Showing @Model.CartEntries.Count() products that are added to the cart</p>
+    <p>Showing @Model.Count() products that are added to the cart</p>
 
     <table class="table table-bordered table-hover">
         <thead class="table-primary">
@@ -20,18 +20,18 @@
         </tr>
         </thead>
         <tbody>
-            @foreach (var entry in Model.CartEntries)
+            @foreach (var entry in Model)
             {
                 <tr>
                     <td>@entry.Product.Name</td>
                     <td>@entry.Amount</td>
-                    <td>@Model.GetTotalEntryPrice(entry)</td>
+                    <td>@entry.TotalPrice</td>
                 </tr>
             }
         </tbody>
     </table>
 
-    <h3>Total price: @Model.TotalPrice</h3>
+    <h3>Total price: @Model.Sum(entry => entry.TotalPrice)</h3>
 
     <form method="post" asp-action="Submit">
         <button class="btn btn-success" type="submit">Submit order</button>

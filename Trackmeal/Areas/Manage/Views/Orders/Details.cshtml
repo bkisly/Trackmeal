@@ -1,0 +1,17 @@
+﻿@model Trackmeal.Models.Order
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = $"Details of order with ID {Model.Id}";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@*<ul>
+    <li><strong>ID: </strong>@Model.Id</li>
+    <li><strong>Date ordered: </strong>@Model.DateOrdered</li>
+    <li><strong>Order token: </strong>@Model.Token</li>
+</ul>
+
+<table class="table-bordered"></table>*@
+
+@await Html.PartialAsync("_OrderDetails", Model)

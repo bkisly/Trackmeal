@@ -25,7 +25,7 @@
                     <td>@order.DateOrdered</td>
                     <td>@order.TotalPrice</td>
                     <td>
-                        <a class="btn btn-light">View details...</a>
+                        @Html.ActionLink("View details...", "Details", new { orderId = order.Id}, new { @class = "btn btn-light" })
                     </td>
                 </tr>
             }

@@ -19,9 +19,9 @@ namespace Trackmeal.Areas.Manage.Controllers
             return View(await _orderService.GetItemsAsync());
         }
 
-        public IActionResult Details(int orderId)
+        public async Task<IActionResult> Details(int orderId)
         {
-            throw new NotImplementedException();
+            return View(await _orderService.GetItemByIdAsync(orderId));
         }
     }
 }

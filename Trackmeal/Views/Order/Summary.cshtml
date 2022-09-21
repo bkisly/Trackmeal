@@ -8,31 +8,4 @@
     <h4>Here's the summary of your order</h4>
 </div>
 
-<ul>
-    <li><strong>Date ordered: </strong>@Model.DateOrdered</li>
-    <li><strong>Order token: </strong>@Model.Token</li>
-</ul>
-
-<strong>Here are the products that you have ordered:</strong>
-
-<table class="table table-hover table-bordered">
-    <thead class="table-primary">
-    <tr>
-        <th>Name</th>
-        <th>Amount</th>
-        <th>Total price</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var entry in Model.Entries)
-    {
-        <tr>
-            <td>@entry.Product.Name</td>
-            <td>@entry.Amount</td>
-            <td>@(entry.Product.Price * entry.Amount)</td>
-        </tr>
-    }
-    </tbody>
-</table>
-
-<h4>Total price: @Model.TotalPrice</h4>
+@await Html.PartialAsync("_OrderDetails", Model)

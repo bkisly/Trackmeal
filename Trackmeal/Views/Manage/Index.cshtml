@@ -19,7 +19,9 @@
                 </p>
             </div>
             <div class="col">
-                <a class="btn btn-success"><strong>Orders</strong></a>
+                <a class="btn btn-success" asp-area="Manage" asp-controller="Orders" asp-action="Index">
+                    <strong>Orders</strong>
+                </a>
                 <p>
                     This is the place where you can manage orders made by customers. You are able to
                     modify state of active orders and view their details.

@@ -1,7 +1,4 @@
-﻿using Trackmeal.Models;
-using Trackmeal.Services;
-
-namespace Trackmeal.UnitTests
+﻿namespace Trackmeal.UnitTests
 {
     public class OrderDataServiceTests
     {

@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Trackmeal.Data;
-using Trackmeal.Models;
-using Trackmeal.Services;
-
-namespace Trackmeal.UnitTests
+﻿namespace Trackmeal.UnitTests
 {
     internal static class Helpers
     {

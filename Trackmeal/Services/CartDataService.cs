@@ -52,7 +52,7 @@ namespace Trackmeal.Services
 
         public async Task RemoveProductAsync(int productId)
         {
-            var entryToModify = await _context.Cart.SingleAsync(entry => entry.Product.Id == productId);
+            var entryToModify = await _context.Cart.SingleAsync(entry => entry.Product.Id == productId && !entry.OrderId.HasValue);
             if (entryToModify.Amount == 1) _context.Cart.Remove(entryToModify);
             else entryToModify.Amount--;
 

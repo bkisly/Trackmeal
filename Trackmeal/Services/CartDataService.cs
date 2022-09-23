@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Trackmeal.Data;
 using Trackmeal.Models;
 
@@ -18,12 +17,17 @@ namespace Trackmeal.Services
 
         public async Task<CartEntry[]> GetItemsAsync()
         {
-            return await _context.Cart.Where(entry => !entry.OrderId.HasValue).ToArrayAsync();
+            return await _context.Cart
+                .Include(entry => entry.Product)
+                .Where(entry => !entry.OrderId.HasValue)
+                .ToArrayAsync();
         }
 
         public async Task<CartEntry> GetItemByIdAsync(int id)
         {
-            return await _context.Cart.SingleAsync(entry => entry.Id == id);
+            return await _context.Cart
+                .Include(entry => entry.Product)
+                .SingleAsync(entry => entry.Id == id);
         }
 
         public async Task AddProductAsync(int productId)

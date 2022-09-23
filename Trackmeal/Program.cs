@@ -13,14 +13,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // Test data services
-builder.Services.AddSingleton<IModifiableDataService<Product>, TestProductsDataService>();
+/*builder.Services.AddSingleton<IModifiableDataService<Product>, TestProductsDataService>();
 builder.Services.AddSingleton<ICartDataService, TestCartDataService>();
-builder.Services.AddSingleton<IModifiableDataService<Order>, TestOrderDataService>();
+builder.Services.AddSingleton<IModifiableDataService<Order>, TestOrderDataService>();*/
 
 // Real data services
-// builder.Services.AddScoped<IModifiableDataService<Product>, ProductsDataService>();
-// builder.Services.AddScoped<ICartDataService, CartDataService>();
-// builder.Services.AddScoped<IModifiableDataService<Order>, OrderDataService>();
+builder.Services.AddScoped<IModifiableDataService<Product>, ProductsDataService>();
+builder.Services.AddScoped<ICartDataService, CartDataService>();
+builder.Services.AddScoped<IModifiableDataService<Order>, OrderDataService>();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();

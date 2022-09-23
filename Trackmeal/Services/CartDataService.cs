@@ -29,14 +29,13 @@ namespace Trackmeal.Services
         public async Task AddProductAsync(int productId)
         {
             var cart = _context.Cart;
-            var entryToModify = await cart.SingleOrDefaultAsync(entry => entry.Product.Id == productId);
+            var entryToModify = await cart.SingleOrDefaultAsync(entry => entry.Product.Id == productId && !entry.OrderId.HasValue);
 
             if (entryToModify is not null) entryToModify.Amount++;
             else
             {
                 CartEntry newEntry = new()
                 {
-                    Id = (short)(cart.Any() ? await cart.Select(entry => entry.Id).MaxAsync() + 1 : 1),
                     Amount = 1,
                     Product = await _productsService.GetItemByIdAsync(productId)
                 };

@@ -146,5 +146,25 @@ namespace Trackmeal.UnitTests
 
             Assert.Empty(await cartService.GetItemsAsync());
         }
+
+        [Fact]
+        public async Task AddEntryAfterSubmittedOrder()
+        {
+            await using var context = Helpers.GetInMemoryContext("AddEntriesAfterSubmitted_TestDb");
+            var cartService = await Helpers.GetTestCartServiceAsync(context);
+            var orderService = new OrderDataService(context);
+
+            await cartService.AddProductAsync(1);
+            await orderService.AddItemAsync(new Order { Entries = (await cartService.GetItemsAsync()).ToList() });
+            await cartService.ClearCartAsync();
+
+            await cartService.AddProductAsync(1);
+            var newEntries = await cartService.GetItemsAsync();
+
+            Assert.NotEmpty(newEntries);
+            Assert.Single(newEntries);
+            Assert.Equal(1, newEntries.First().Product.Id);
+            Assert.Null(newEntries.First().OrderId);
+        }
     }
 }

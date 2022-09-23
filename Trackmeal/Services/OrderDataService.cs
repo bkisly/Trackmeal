@@ -16,6 +16,7 @@ namespace Trackmeal.Services
         public async Task<Order[]> GetItemsAsync()
         {
             return await _context.Orders
+                .Include(order => order.OrderStatus)
                 .Include(order => order.Entries)
                 .ThenInclude(entry => entry.Product)
                 .ToArrayAsync();
@@ -24,6 +25,7 @@ namespace Trackmeal.Services
         public async Task<Order> GetItemByIdAsync(int id)
         {
             return await _context.Orders
+                .Include(order => order.OrderStatus)
                 .Include(order => order.Entries)
                 .ThenInclude(entry => entry.Product)
                 .SingleAsync(order => order.Id == id);

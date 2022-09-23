@@ -13,6 +13,7 @@
         <tr>
             <th>ID</th>
             <th>Date ordered</th>
+            <th>Status</th>
             <th>Total price</th>
             <th>Details</th>
         </tr>
@@ -23,6 +24,7 @@
                 <tr>
                     <td>@order.Id</td>
                     <td>@order.DateOrdered</td>
+                    <td>@order.OrderStatus.Name</td>
                     <td>@order.TotalPrice</td>
                     <td>
                         @Html.ActionLink("View details...", "Details", new { orderId = order.Id}, new { @class = "btn btn-light" })

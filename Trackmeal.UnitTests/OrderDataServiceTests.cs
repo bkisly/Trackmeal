@@ -13,7 +13,8 @@
             await orderService.AddItemAsync(new Order
             {
                 Id = 1,
-                Entries = entriesInCart.ToList()
+                Entries = entriesInCart.ToList(),
+                OrderStatus = new OrderStatus { Name = "Submitted" }
             });
 
             await cartService.ClearCartAsync();

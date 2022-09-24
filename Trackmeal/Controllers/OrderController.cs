@@ -41,7 +41,6 @@ namespace Trackmeal.Controllers
         {
             var order = new Order { Entries = (await _cartService.GetItemsAsync()).ToList() };
             await _orderService.AddItemAsync(order);
-            await _cartService.ClearCartAsync();
 
             return RedirectToAction(nameof(Summary), new { id = order.Id });
         }

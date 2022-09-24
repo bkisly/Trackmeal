@@ -7,7 +7,7 @@
         {
             await using var context = Helpers.GetInMemoryContext("SubmitOrder_TestDb");
             var cartService = await Helpers.GetTestCartServiceAsync(context);
-            var orderService = new OrderDataService(context);
+            var orderService = new OrderDataService(context, cartService);
             var entriesInCart = await cartService.GetItemsAsync();
 
             await orderService.AddItemAsync(new Order
@@ -16,8 +16,6 @@
                 Entries = entriesInCart.ToList(),
                 OrderStatus = new OrderStatus { Name = "Submitted" }
             });
-
-            await cartService.ClearCartAsync();
 
             var order = await orderService.GetItemByIdAsync(1);
             
@@ -33,6 +31,31 @@
             // Check entries list contents
             foreach (var (entryInOrder, entryFromCart) in order.Entries.Zip(entriesInCart))
                 Assert.Equivalent(entryFromCart, entryInOrder);
+        }
+
+        [Fact]
+        public async Task DeleteOrderTest()
+        {
+            await using var context = Helpers.GetInMemoryContext("DeleteOrder_TestDb");
+            var cartService = await Helpers.GetTestCartServiceAsync(context);
+            var orderService = new OrderDataService(context, cartService);
+
+            await orderService.AddItemAsync(new Order
+            {
+                Id = 1,
+                Entries = (await cartService.GetItemsAsync()).ToList(),
+                OrderStatus = new OrderStatus { Name = "Submitted" }
+            });
+
+            Assert.NotEmpty(await orderService.GetItemsAsync());
+
+            await cartService.AddProductAsync(1);
+            await cartService.AddProductAsync(1);
+            await cartService.AddProductAsync(2);
+            await orderService.DeleteItemAsync(1);
+
+            Assert.Empty(await orderService.GetItemsAsync());
+            Assert.Equal(2, (await cartService.GetItemsAsync()).Length);
         }
     }
 }

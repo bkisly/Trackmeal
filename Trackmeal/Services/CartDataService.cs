@@ -30,6 +30,13 @@ namespace Trackmeal.Services
                 .SingleAsync(entry => entry.Id == id);
         }
 
+        public async Task<CartEntry[]> GetAllEntries()
+        {
+            return await _context.Cart
+                .Include(entry => entry.Product)
+                .ToArrayAsync();
+        }
+
         public async Task AddProductAsync(int productId)
         {
             var cart = _context.Cart;

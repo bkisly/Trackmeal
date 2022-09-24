@@ -7,10 +7,12 @@ namespace Trackmeal.Services
     public class OrderDataService : IModifiableDataService<Order>
     {
         private readonly ApplicationDbContext _context;
+        private readonly ICartDataService _cartDataService;
 
-        public OrderDataService(ApplicationDbContext context)
+        public OrderDataService(ApplicationDbContext context, ICartDataService cartDataService)
         {
             _context = context;
+            _cartDataService = cartDataService;
         }
 
         public async Task<Order[]> GetItemsAsync()
@@ -52,6 +54,9 @@ namespace Trackmeal.Services
 
         public async Task DeleteItemAsync(int id)
         {
+            foreach (var entry in (await _cartDataService.GetAllEntries()).Where(entry => entry.OrderId == id))
+                await _cartDataService.DeleteEntryAsync(entry.Id);
+
             _context.Orders.Remove(await _context.Orders.SingleAsync(order => order.Id == id));
             await _context.SaveChangesAsync();
         }

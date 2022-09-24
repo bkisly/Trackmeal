@@ -17,6 +17,7 @@ namespace Trackmeal.Services
 
     public interface ICartDataService : IDataService<CartEntry>
     {
+        public Task<CartEntry[]> GetAllEntries();
         public Task AddProductAsync(int productId);
         public Task RemoveProductAsync(int productId);
         public Task DeleteEntryAsync(int entryId);

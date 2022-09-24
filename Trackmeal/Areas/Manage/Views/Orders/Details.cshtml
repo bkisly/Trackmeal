@@ -5,9 +5,11 @@
 }
 
 <h2>@ViewData["Title"]</h2>
+<button class="btn btn-danger" id="delete-button" data-order-id="@Model.Id">Delete order</button>
 
 @await Html.PartialAsync("_OrderDetails", Model)
 
 <h4>Current status: @Model.OrderStatus.Name</h4>
 <button class="btn btn-danger">Previous state</button>
 <button class="btn btn-primary">Next state</button>
+

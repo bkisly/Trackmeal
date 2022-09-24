@@ -14,13 +14,18 @@ namespace Trackmeal.Services
 
         public Task<CartEntry[]> GetItemsAsync()
         {
-            return Task.FromResult(_cart.ToArray());
+            return Task.FromResult(_cart.Where(entry => !entry.OrderId.HasValue).ToArray());
         }
 
         public Task<CartEntry> GetItemByIdAsync(int id)
         {
             var entry = _cart.Single(entry => entry.Id == id);
             return Task.FromResult(entry);
+        }
+
+        public Task<CartEntry[]> GetAllEntries()
+        {
+            return Task.FromResult(_cart.ToArray());
         }
 
         public async Task AddProductAsync(int productId)

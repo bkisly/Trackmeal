@@ -130,7 +130,7 @@
         {
             await using var context = Helpers.GetInMemoryContext("GetEntriesAfterSubmitted_TestDb");
             var cartService = await Helpers.GetTestCartServiceAsync(context);
-            var orderService = new OrderDataService(context);
+            var orderService = new OrderDataService(context, cartService);
             var entriesInCart = await cartService.GetItemsAsync();
 
             await orderService.AddItemAsync(new Order
@@ -149,7 +149,7 @@
         {
             await using var context = Helpers.GetInMemoryContext("AddEntriesAfterSubmitted_TestDb");
             var cartService = await Helpers.GetTestCartServiceAsync(context);
-            var orderService = new OrderDataService(context);
+            var orderService = new OrderDataService(context, cartService);
 
             await cartService.AddProductAsync(1);
             await orderService.AddItemAsync(new Order { Entries = (await cartService.GetItemsAsync()).ToList() });
@@ -169,11 +169,10 @@
         {
             await using var context = Helpers.GetInMemoryContext("RemoveEntriesAfterSubmitted_TestDb");
             var cartService = await Helpers.GetTestCartServiceAsync(context);
-            var orderService = new OrderDataService(context);
+            var orderService = new OrderDataService(context, cartService);
 
             await cartService.AddProductAsync(1);
             await orderService.AddItemAsync(new Order { Entries = (await cartService.GetItemsAsync()).ToList() });
-            await cartService.ClearCartAsync();
 
             await cartService.AddProductAsync(1);
             var exceptionResult = await Record.ExceptionAsync(async () => await cartService.RemoveProductAsync(1));

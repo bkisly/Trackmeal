@@ -57,5 +57,30 @@
             Assert.Empty(await orderService.GetItemsAsync());
             Assert.Equal(2, (await cartService.GetItemsAsync()).Length);
         }
+
+        [Fact]
+        public async Task ChangeOrderStateTest()
+        {
+            await using var context = Helpers.GetInMemoryContext("ChangeOrderState_TestDb");
+            var orderService = await Helpers.GetTestOrderServiceAsync(context);
+            var order = await orderService.GetItemByIdAsync(1);
+
+            await orderService.NextStateAsync(1);
+            Assert.Equal(2, order.OrderStatusId);
+
+            for(int i = 0; i < 10; i++) await orderService.NextStateAsync(1);
+            Assert.Equal(4, order.OrderStatusId);
+
+            await orderService.PreviousStateAsync(1);
+            Assert.Equal(3, order.OrderStatusId);
+
+            for(int i = 0; i < 10; i++) await orderService.PreviousStateAsync(1);
+            Assert.Equal(1, order.OrderStatusId);
+
+            await orderService.SetStateAsync(1, 3);
+            Assert.Equal(3, order.OrderStatusId);
+
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await orderService.SetStateAsync(1, 20));
+        }
     }
 }

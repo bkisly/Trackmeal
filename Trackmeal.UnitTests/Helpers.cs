@@ -53,5 +53,21 @@
 
             return cartService;
         }
+
+        public static async Task<IOrderDataService> GetTestOrderServiceAsync(ApplicationDbContext context)
+        {
+            var cartService = await GetTestCartServiceAsync(context);
+            var orderService = new OrderDataService(context, cartService);
+            await orderService.AddItemAsync(
+                new Order
+                {
+                    Id = 1, 
+                    Entries = (await cartService.GetItemsAsync()).ToList(),
+                    OrderStatus = new OrderStatus { Id = 1, Name = "Submitted" }
+                }
+            );
+
+            return orderService;
+        }
     }
 }

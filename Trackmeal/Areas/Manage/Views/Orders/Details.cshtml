@@ -13,3 +13,23 @@
 <button class="btn btn-danger">Previous state</button>
 <button class="btn btn-primary">Next state</button>
 
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+            $("#delete-button").on("click",
+                function() {
+                    if (confirm("Are you sure you want to delete this order?")) {
+                        $.ajax({
+                            url: `/Manage/Orders/DeleteOrder/${$(this).attr("data-order-id")}`,
+                            method: "DELETE",
+                            success: function() {
+                                window.location.href = '@Url.Action("Index")';
+                            }
+                        });
+                    }
+                }
+            );
+        });
+    </script>
+}

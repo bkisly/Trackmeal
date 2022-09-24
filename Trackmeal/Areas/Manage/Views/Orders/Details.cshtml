@@ -21,7 +21,7 @@
                 function() {
                     if (confirm("Are you sure you want to delete this order?")) {
                         $.ajax({
-                            url: `/Manage/Orders/DeleteOrder/${$(this).attr("data-order-id")}`,
+                            url: `/api/order/${$(this).attr("data-order-id")}`,
                             method: "DELETE",
                             success: function() {
                                 window.location.href = '@Url.Action("Index")';

@@ -4,7 +4,7 @@
         function () {
             const button = $(this);
             $.ajax({
-                url: `/api/cart/add/${button.attr("data-product-id")}`,
+                url: `/api/cart/${button.attr("data-product-id")}`,
                 method: "POST",
                 success: function () {
                     updateDom(button.parent().parent());
@@ -18,7 +18,7 @@
         function () {
             const button = $(this);
             $.ajax({
-                url: `/api/cart/remove/${button.attr("data-product-id")}`,
+                url: `/api/cart/${button.attr("data-product-id")}`,
                 method: "DELETE",
                 success: function () {
                     updateDom(button.parent().parent(), true);

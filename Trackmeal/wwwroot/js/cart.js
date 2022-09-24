@@ -3,7 +3,7 @@
         function () {
             if (confirm("Are you sure you want to clear the cart?")) {
                 $.ajax({
-                    url: "/api/cart/clear",
+                    url: "/api/cart",
                     method: "DELETE",
                     success: function () {
                         window.location.reload();

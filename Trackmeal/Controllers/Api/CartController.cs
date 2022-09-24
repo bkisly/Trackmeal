@@ -21,7 +21,7 @@ namespace Trackmeal.Controllers.Api
             return Ok(await _cartService.GetItemsAsync());
         }
 
-        [HttpPost("add/{id}")]
+        [HttpPost("{id}")]
         public async Task<IActionResult> AddProduct(int id)
         {
             try
@@ -36,7 +36,7 @@ namespace Trackmeal.Controllers.Api
             return NoContent();
         }
 
-        [HttpDelete("remove/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> RemoveProduct(int id)
         {
             try
@@ -51,7 +51,7 @@ namespace Trackmeal.Controllers.Api
             return NoContent();
         }
 
-        [HttpDelete("clear")]
+        [HttpDelete]
         public async Task<IActionResult> ClearCart()
         {
             await _cartService.ClearCartAsync();

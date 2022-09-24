@@ -23,12 +23,5 @@ namespace Trackmeal.Areas.Manage.Controllers
         {
             return View(await _orderService.GetItemByIdAsync(orderId));
         }
-
-        [HttpDelete]
-        public async Task<IActionResult> DeleteOrder(int id)
-        {
-            await _orderService.DeleteItemAsync(id);
-            return NoContent();
-        }
     }
 }

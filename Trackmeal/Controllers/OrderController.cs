@@ -9,10 +9,10 @@ namespace Trackmeal.Controllers
     {
         private readonly ICartDataService _cartService;
         private readonly IModifiableDataService<Product> _productsService;
-        private readonly IModifiableDataService<Order> _orderService;
+        private readonly IOrderDataService _orderService;
 
         public OrderController(ICartDataService service, 
-            IModifiableDataService<Product> productsService, IModifiableDataService<Order> orderService)
+            IModifiableDataService<Product> productsService, IOrderDataService orderService)
         {
             _cartService = service;
             _productsService = productsService;

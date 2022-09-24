@@ -4,7 +4,7 @@ using Trackmeal.Models;
 
 namespace Trackmeal.Services
 {
-    public class OrderDataService : IModifiableDataService<Order>
+    public class OrderDataService : IOrderDataService
     {
         private readonly ApplicationDbContext _context;
         private readonly ICartDataService _cartDataService;
@@ -59,6 +59,38 @@ namespace Trackmeal.Services
 
             _context.Orders.Remove(await _context.Orders.SingleAsync(order => order.Id == id));
             await _context.SaveChangesAsync();
+        }
+
+        public async Task NextStateAsync(int orderId)
+        {
+            var order = await _context.Orders.SingleAsync(order => order.Id == orderId);
+            if (order.OrderStatusId < (byte)OrderStatusEnum.Completed)
+            {
+                order.OrderStatusId++;
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task PreviousStateAsync(int orderId)
+        {
+            var order = await _context.Orders.SingleAsync(order => order.Id == orderId);
+            if (order.OrderStatusId > (byte)OrderStatusEnum.Submitted)
+            {
+                order.OrderStatusId--;
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task SetStateAsync(int orderId, byte stateId)
+        {
+            var order = await _context.Orders.SingleAsync(order => order.Id == orderId);
+
+            if (stateId is < (byte)OrderStatusEnum.Completed and > (byte)OrderStatusEnum.Submitted)
+            {
+                order.OrderStatusId = stateId;
+                await _context.SaveChangesAsync();
+            }
+            else throw new InvalidOperationException("Tried to assign an invalid order status ID.");
         }
     }
 }

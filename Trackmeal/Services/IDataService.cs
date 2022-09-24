@@ -23,4 +23,11 @@ namespace Trackmeal.Services
         public Task DeleteEntryAsync(int entryId);
         public Task ClearCartAsync();
     }
+
+    public interface IOrderDataService : IModifiableDataService<Order>
+    {
+        public Task NextStateAsync(int orderId);
+        public Task PreviousStateAsync(int orderId);
+        public Task SetStateAsync(int orderId, byte stateId);
+    }
 }

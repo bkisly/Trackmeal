@@ -9,11 +9,25 @@ namespace Trackmeal.Controllers.Api
     [ApiController]
     public class OrderController : ControllerBase
     {
-        private readonly IModifiableDataService<Order> _orderService;
+        private readonly IOrderDataService _orderService;
 
-        public OrderController(IModifiableDataService<Order> orderService)
+        public OrderController(IOrderDataService orderService)
         {
             _orderService = orderService;
+        }
+
+        [HttpPut("nextstate/{id}")]
+        public async Task<IActionResult> NextState(int id)
+        {
+            await _orderService.NextStateAsync(id);
+            return NoContent();
+        }
+
+        [HttpPut("prevstate/{id}")]
+        public async Task<IActionResult> PreviousState(int id)
+        {
+            await _orderService.NextStateAsync(id);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]

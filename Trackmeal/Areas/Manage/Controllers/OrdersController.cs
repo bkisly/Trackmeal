@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Trackmeal.Models;
 using Trackmeal.Services;
 
 namespace Trackmeal.Areas.Manage.Controllers
@@ -7,9 +6,9 @@ namespace Trackmeal.Areas.Manage.Controllers
     [Area("Manage")]
     public class OrdersController : Controller
     {
-        private readonly IModifiableDataService<Order> _orderService;
+        private readonly IOrderDataService _orderService;
 
-        public OrdersController(IModifiableDataService<Order> orderService)
+        public OrdersController(IOrderDataService orderService)
         {
             _orderService = orderService;
         }

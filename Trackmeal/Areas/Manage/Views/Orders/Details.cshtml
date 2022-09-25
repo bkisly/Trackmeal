@@ -1,17 +1,23 @@
-﻿@model Trackmeal.Models.Order
+﻿@using Trackmeal.Models
+@model Order
 @{
     Layout = "_Layout";
     ViewData["Title"] = $"Details of order with ID {Model.Id}";
 }
 
-<h2>@ViewData["Title"]</h2>
-<button class="btn btn-danger" id="delete-button" data-order-id="@Model.Id">Delete order</button>
+ <h2>@ViewData["Title"]</h2>
+<div data-order-id="@Model.Id">
+    @Html.ActionLink("Back to orders", "Index", new { }, new { @class = "btn btn-primary" })
+    <button class="btn btn-danger" id="delete-button" data-order-id="@Model.Id">Delete order</button>
 
-@await Html.PartialAsync("_OrderDetails", Model)
+    @await Html.PartialAsync("_OrderDetails", Model)
 
-<h4>Current status: @Model.OrderStatus.Name</h4>
-<button class="btn btn-danger">Previous state</button>
-<button class="btn btn-primary">Next state</button>
+    <h4>Current status: <span id="status-name">@Model.OrderStatus.Name</span></h4>
+    <button class="btn btn-danger" id="prev-state-btn"
+            disabled="@(Model.OrderStatusId <= (byte)OrderStatusEnum.Submitted)">Previous state</button>
+    <button class="btn btn-primary" id="next-state-btn"
+            disabled="@(Model.OrderStatusId >= (byte)OrderStatusEnum.Completed)">Next state</button>
+</div>
 
 @section Scripts
 {
@@ -21,7 +27,7 @@
                 function() {
                     if (confirm("Are you sure you want to delete this order?")) {
                         $.ajax({
-                            url: `/api/order/${$(this).attr("data-order-id")}`,
+                            url: `/api/order/${$(this).parent().attr("data-order-id")}`,
                             method: "DELETE",
                             success: function() {
                                 window.location.href = '@Url.Action("Index")';
@@ -32,4 +38,5 @@
             );
         });
     </script>
+    <script src="~/js/orderStatus.js"></script>
 }

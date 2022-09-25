@@ -20,7 +20,14 @@ namespace Trackmeal.Areas.Manage.Controllers
 
         public async Task<IActionResult> Details(int orderId)
         {
-            return View(await _orderService.GetItemByIdAsync(orderId));
+            try
+            {
+                return View(await _orderService.GetItemByIdAsync(orderId));
+            }
+            catch (InvalidOperationException)
+            {
+                return NotFound();
+            }
         }
     }
 }

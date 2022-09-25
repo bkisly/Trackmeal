@@ -17,17 +17,17 @@ namespace Trackmeal.Controllers.Api
         }
 
         [HttpPut("nextstate/{id}")]
-        public async Task<IActionResult> NextState(int id)
+        public async Task<ActionResult<OrderStatus>> NextState(int id)
         {
             await _orderService.NextStateAsync(id);
-            return NoContent();
+            return Ok((await _orderService.GetItemByIdAsync(id)).OrderStatus);
         }
 
         [HttpPut("prevstate/{id}")]
-        public async Task<IActionResult> PreviousState(int id)
+        public async Task<ActionResult<OrderStatus>> PreviousState(int id)
         {
-            await _orderService.NextStateAsync(id);
-            return NoContent();
+            await _orderService.PreviousStateAsync(id);
+            return Ok((await _orderService.GetItemByIdAsync(id)).OrderStatus);
         }
 
         [HttpDelete("{id}")]

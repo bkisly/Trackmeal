@@ -15,17 +15,20 @@
             <th>Name</th>
             <th>Description</th>
             <th>Price</th>
-            <th>Delete</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
             @foreach (var product in Model)
             {
                 <tr>
-                    <td>@Html.ActionLink(product.Name, "Edit", "Products", new { id = product.Id })</td>
+                    <td>@product.Name</td>
                     <td>@product.Description</td>
                     <td>@product.Price</td>
-                    <td><button class="btn btn-danger js-delete" data-product-id="@product.Id">Delete</button></td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = product.Id }, new { @class = "btn btn-light" })
+                        <button class="btn btn-danger js-delete" data-product-id="@product.Id">Delete</button>
+                    </td>
                 </tr>
             }
         </tbody>

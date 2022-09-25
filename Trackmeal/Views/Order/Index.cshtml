@@ -1,9 +1,9 @@
 ﻿@model Trackmeal.ViewModels.OrderViewModel
 @{
-    ViewData["Title"] = "Make an order";
+    ViewData["Title"] = "Place an order";
 }
 
-<h2>Make an order</h2>
+<h2>@ViewData["Title"]</h2>
 
 @if (Model.Products.Any())
 {
@@ -45,7 +45,7 @@
 }
 else
 {
-    <p>Currently there are no products in the database. Making an order is not possible at the moment.</p>
+    <p>Currently there are no products in the database. Placing an order is not possible at the moment.</p>
 }
 
 @section Scripts

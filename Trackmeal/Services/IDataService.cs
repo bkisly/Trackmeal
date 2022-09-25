@@ -26,6 +26,7 @@ namespace Trackmeal.Services
 
     public interface IOrderDataService : IModifiableDataService<Order>
     {
+        public Task<Order> GetOrderByTokenAsync(Guid token);
         public Task NextStateAsync(int orderId);
         public Task PreviousStateAsync(int orderId);
         public Task SetStateAsync(int orderId, byte stateId);

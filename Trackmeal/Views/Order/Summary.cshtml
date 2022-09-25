@@ -9,3 +9,4 @@
 </div>
 
 @await Html.PartialAsync("Order/_OrderDetails", Model)
+@Html.ActionLink("Track the status of your order here", "Status", new { token = Model.Token }, new { @class = "btn btn-primary" })

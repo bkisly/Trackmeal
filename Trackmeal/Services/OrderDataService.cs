@@ -33,6 +33,15 @@ namespace Trackmeal.Services
                 .SingleAsync(order => order.Id == id);
         }
 
+        public async Task<Order> GetOrderByTokenAsync(Guid token)
+        {
+            return await _context.Orders
+                .Include(order => order.OrderStatus)
+                .Include(order => order.Entries)
+                .ThenInclude(entry => entry.Product)
+                .SingleAsync(order => order.Token == token);
+        }
+
         public async Task AddItemAsync(Order item)
         {
             item.DateOrdered = DateTime.Now;

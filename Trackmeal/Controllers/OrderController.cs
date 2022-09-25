@@ -45,11 +45,25 @@ namespace Trackmeal.Controllers
             return RedirectToAction(nameof(Summary), new { id = order.Id });
         }
 
+        // Shows the summary of an order with given ID
         public async Task<IActionResult> Summary(int id)
         {
             try
             {
                 return View(await _orderService.GetItemByIdAsync(id));
+            }
+            catch (InvalidOperationException)
+            {
+                return NotFound();
+            }
+        }
+
+        // Displays status tracking page for the order with given token
+        public async Task<IActionResult> Status(Guid token)
+        {
+            try
+            {
+                return View(await _orderService.GetOrderByTokenAsync(token));
             }
             catch (InvalidOperationException)
             {

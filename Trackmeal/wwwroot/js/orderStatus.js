@@ -24,8 +24,8 @@
     );
 });
 
-function updateStateView(stateData) {
-    $("#status-name").text(stateData.name);
-    $("#prev-state-btn").attr("disabled", stateData.id <= 1);
-    $("#next-state-btn").attr("disabled", stateData.id >= 4);
+function updateStateView(orderStatus) {
+    $("#status-name").text(orderStatus.name);
+    $("#prev-state-btn").attr("disabled", orderStatus.id <= 1);
+    $("#next-state-btn").attr("disabled", orderStatus.id >= 4);
 }

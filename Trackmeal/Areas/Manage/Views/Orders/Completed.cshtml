@@ -1,0 +1,9 @@
+﻿@model IEnumerable<Trackmeal.Models.Order>
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Completed orders";
+}
+
+<h2>@ViewData["Title"]</h2>
+@Html.ActionLink("Back to orders", "Index", new { }, new { @class = "btn btn-primary" })
+@await Html.PartialAsync("Order/_OrdersList", Model)

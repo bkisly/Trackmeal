@@ -5,36 +5,5 @@
 }
 
 <h2>Manage orders</h2>
-
-@if (Model.Any())
-{
-    <table class="table table-bordered table-hover">
-        <thead class="table-primary">
-        <tr>
-            <th>ID</th>
-            <th>Date ordered</th>
-            <th>Status</th>
-            <th>Total price</th>
-            <th>Details</th>
-        </tr>
-        </thead>
-        <tbody>
-            @foreach (var order in Model)
-            {
-                <tr>
-                    <td>@order.Id</td>
-                    <td>@order.DateOrdered</td>
-                    <td>@order.OrderStatus.Name</td>
-                    <td>@order.TotalPrice</td>
-                    <td>
-                        @Html.ActionLink("View details...", "Details", new { orderId = order.Id}, new { @class = "btn btn-light" })
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>There aren't any orders yet.</p>
-}
+@Html.ActionLink("View completed orders", "Completed", new { }, new { @class = "btn btn-primary" })
+@await Html.PartialAsync("Order/_OrdersList", Model)

@@ -10,7 +10,7 @@
     @Html.ActionLink("Back to orders", "Index", new { }, new { @class = "btn btn-primary" })
     <button class="btn btn-danger" id="delete-button" data-order-id="@Model.Id">Delete order</button>
 
-    @await Html.PartialAsync("_OrderDetails", Model)
+    @await Html.PartialAsync("Order/_OrderDetails", Model)
 
     <h4>Current status: <span id="status-name">@Model.OrderStatus.Name</span></h4>
     <button class="btn btn-danger" id="prev-state-btn"

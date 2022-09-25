@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Trackmeal.Models;
 using Trackmeal.Services;
 
 namespace Trackmeal.Areas.Manage.Controllers
@@ -15,7 +16,8 @@ namespace Trackmeal.Areas.Manage.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _orderService.GetItemsAsync());
+            return View((await _orderService.GetItemsAsync()).Where(order => 
+                order.OrderStatus.Id != (byte)OrderStatusEnum.Completed));
         }
 
         public async Task<IActionResult> Details(int orderId)
@@ -28,6 +30,12 @@ namespace Trackmeal.Areas.Manage.Controllers
             {
                 return NotFound();
             }
+        }
+
+        public async Task<IActionResult> Completed()
+        {
+            return View((await _orderService.GetItemsAsync()).Where(order =>
+                order.OrderStatus.Id == (byte)OrderStatusEnum.Completed));
         }
     }
 }

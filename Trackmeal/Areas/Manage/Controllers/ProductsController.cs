@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Trackmeal.Helpers;
 using Trackmeal.Models;
 using Trackmeal.Services;
 using Trackmeal.ViewModels;
 
 namespace Trackmeal.Areas.Manage.Controllers
 {
-    [Area("Manage")]
+    [Area("Manage"), Authorize(Roles = Constants.RoleNames.Administrator)]
     public class ProductsController : Controller
     {
         private readonly IModifiableDataService<Product> _service;

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Trackmeal.Helpers;
 using Trackmeal.Models;
 using Trackmeal.Services;
 
 namespace Trackmeal.Areas.Manage.Controllers
 {
-    [Area("Manage")]
+    [Area("Manage"), Authorize(Roles = Constants.RoleNames.Administrator)]
     public class OrdersController : Controller
     {
         private readonly IOrderDataService _orderService;

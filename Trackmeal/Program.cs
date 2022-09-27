@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Trackmeal.Data;
+using Trackmeal.Helpers;
 using Trackmeal.Models;
 using Trackmeal.Services;
 
@@ -24,6 +25,7 @@ builder.Services.AddScoped<ICartDataService, CartDataService>();
 builder.Services.AddScoped<IOrderDataService, OrderDataService>();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
@@ -34,6 +36,17 @@ builder.Services.AddAuthorization(options =>
         .Build());
 
 var app = builder.Build();
+
+// Seed the database with initial data
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    context.Database.Migrate();
+
+    var initialAdminPw = builder.Configuration.GetValue<string>("InitialAdminPassword");
+    await StartupDataInitializer.Initialize(services, initialAdminPw);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Trackmeal.Models;
 using Trackmeal.Services;
 using Trackmeal.ViewModels;
@@ -59,6 +60,7 @@ namespace Trackmeal.Controllers
         }
 
         // Displays status tracking page for the order with given token
+        [AllowAnonymous]
         public async Task<IActionResult> Status(Guid token)
         {
             try

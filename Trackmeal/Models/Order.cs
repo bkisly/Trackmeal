@@ -3,6 +3,7 @@
     public class Order
     {
         public int Id { get; set; }
+        public string? UserId { get; set; }
         public Guid Token { get; set; }
         public DateTime DateOrdered { get; set; }
 
@@ -12,13 +13,5 @@
         public OrderStatus OrderStatus { get; set; } = null!;
 
         public decimal TotalPrice => Entries.Sum(entry => entry.TotalPrice);
-    }
-
-    public enum OrderStatusEnum : byte
-    {
-        Submitted = 1,
-        InPreparation,
-        ReadyToCollect,
-        Completed
     }
 }

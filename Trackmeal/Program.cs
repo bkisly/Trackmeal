@@ -21,7 +21,7 @@ builder.Services.AddSingleton<IModifiableDataService<Order>, TestOrderDataServic
 
 // Real data services
 builder.Services.AddScoped<IModifiableDataService<Product>, ProductsDataService>();
-builder.Services.AddScoped<ICartDataService, CartDataService>();
+builder.Services.AddScoped<IIdentityCartDataService, CartDataService>();
 builder.Services.AddScoped<IOrderDataService, OrderDataService>();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)

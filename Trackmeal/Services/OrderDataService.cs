@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Trackmeal.Data;
 using Trackmeal.Models;
 
@@ -7,9 +8,9 @@ namespace Trackmeal.Services
     public class OrderDataService : IOrderDataService
     {
         private readonly ApplicationDbContext _context;
-        private readonly ICartDataService _cartDataService;
+        private readonly IIdentityCartDataService _cartDataService;
 
-        public OrderDataService(ApplicationDbContext context, ICartDataService cartDataService)
+        public OrderDataService(ApplicationDbContext context, IIdentityCartDataService cartDataService)
         {
             _context = context;
             _cartDataService = cartDataService;
@@ -31,6 +32,15 @@ namespace Trackmeal.Services
                 .Include(order => order.Entries)
                 .ThenInclude(entry => entry.Product)
                 .SingleAsync(order => order.Id == id);
+        }
+
+        public async Task<Order> GetItemByIdAsync(int id, IdentityUser user)
+        {
+            return await _context.Orders
+                .Include(order => order.OrderStatus)
+                .Include(order => order.Entries)
+                .ThenInclude(entry => entry.Product)
+                .SingleAsync(order => order.Id == id && order.UserId == user.Id);
         }
 
         public async Task<Order> GetOrderByTokenAsync(Guid token)

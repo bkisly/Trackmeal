@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Trackmeal.Models;
 using Trackmeal.Services;
@@ -8,16 +9,19 @@ namespace Trackmeal.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly ICartDataService _cartService;
+        private readonly IIdentityCartDataService _cartService;
         private readonly IModifiableDataService<Product> _productsService;
         private readonly IOrderDataService _orderService;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public OrderController(ICartDataService service, 
-            IModifiableDataService<Product> productsService, IOrderDataService orderService)
+        public OrderController(IIdentityCartDataService cartService, 
+            IModifiableDataService<Product> productsService, IOrderDataService orderService,
+            UserManager<IdentityUser> userManager)
         {
-            _cartService = service;
+            _cartService = cartService;
             _productsService = productsService;
             _orderService = orderService;
+            _userManager = userManager;
         }
 
         // Gets the list of all products with the possibility to add them
@@ -26,21 +30,21 @@ namespace Trackmeal.Controllers
             return View(new OrderViewModel
             {
                 Products = await _productsService.GetItemsAsync(),
-                CartEntries = await _cartService.GetItemsAsync()
+                CartEntries = await _cartService.GetItemsAsync(await CurrentUser())
             });
         }
 
         // Displays cart and order summary, provides an option to submit an order
         public async Task<IActionResult> Cart()
         {
-            return View(await _cartService.GetItemsAsync());
+            return View(await _cartService.GetItemsAsync(await CurrentUser()));
         }
 
         // Creates a new Order object and adds it to the database
         [HttpPost]
         public async Task<IActionResult> Submit()
         {
-            var order = new Order { Entries = (await _cartService.GetItemsAsync()).ToList() };
+            var order = new Order { Entries = (await _cartService.GetItemsAsync(await CurrentUser())).ToList() };
             await _orderService.AddItemAsync(order);
 
             return RedirectToAction(nameof(Summary), new { id = order.Id });
@@ -51,7 +55,7 @@ namespace Trackmeal.Controllers
         {
             try
             {
-                return View(await _orderService.GetItemByIdAsync(id));
+                return View(await _orderService.GetItemByIdAsync(id, await CurrentUser()));
             }
             catch (InvalidOperationException)
             {
@@ -72,5 +76,7 @@ namespace Trackmeal.Controllers
                 return NotFound();
             }
         }
+
+        private async Task<IdentityUser> CurrentUser() => await _userManager.GetUserAsync(User);
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Trackmeal.UnitTests
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace Trackmeal.UnitTests
 {
     internal static class Helpers
     {
@@ -38,7 +40,7 @@
             return productsService;
         }
 
-        public static async Task<ICartDataService> GetTestCartServiceAsync(ApplicationDbContext context)
+        public static async Task<IIdentityCartDataService> GetTestCartServiceAsync(ApplicationDbContext context)
         {
             var cartService = new CartDataService(context, await GetTestProductsServiceAsync(context));
 
@@ -61,7 +63,7 @@
             await orderService.AddItemAsync(
                 new Order
                 {
-                    Id = 1, 
+                    Id = 1,
                     Entries = (await cartService.GetItemsAsync()).ToList(),
                     OrderStatus = new OrderStatus { Id = 1, Name = "Submitted" }
                 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Trackmeal.Models;
 using Trackmeal.Services;
 
@@ -8,17 +9,19 @@ namespace Trackmeal.Controllers.Api
     [ApiController]
     public class CartController : ControllerBase
     {
-        private readonly ICartDataService _cartService;
+        private readonly IIdentityCartDataService _cartService;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public CartController(ICartDataService cartService)
+        public CartController(IIdentityCartDataService cartService, UserManager<IdentityUser> userManager)
         {
             _cartService = cartService;
+            _userManager = userManager;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CartEntry>>> GetProducts()
         {
-            return Ok(await _cartService.GetItemsAsync());
+            return Ok(await _cartService.GetItemsAsync(await CurrentUser()));
         }
 
         [HttpPost("{id}")]
@@ -26,7 +29,7 @@ namespace Trackmeal.Controllers.Api
         {
             try
             {
-                await _cartService.AddProductAsync(id);
+                await _cartService.AddProductAsync(id, await CurrentUser());
             }
             catch (InvalidOperationException)
             {
@@ -41,7 +44,7 @@ namespace Trackmeal.Controllers.Api
         {
             try
             {
-                await _cartService.RemoveProductAsync(id);
+                await _cartService.RemoveProductAsync(id, await CurrentUser());
             }
             catch (InvalidOperationException)
             {
@@ -54,8 +57,10 @@ namespace Trackmeal.Controllers.Api
         [HttpDelete]
         public async Task<IActionResult> ClearCart()
         {
-            await _cartService.ClearCartAsync();
+            await _cartService.ClearCartAsync(await CurrentUser());
             return NoContent();
         }
+
+        private async Task<IdentityUser> CurrentUser() => await _userManager.GetUserAsync(User);
     }
 }

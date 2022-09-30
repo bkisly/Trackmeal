@@ -1,4 +1,5 @@
-﻿using Trackmeal.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using Trackmeal.Models;
 
 namespace Trackmeal.Services
 {
@@ -24,8 +25,18 @@ namespace Trackmeal.Services
         public Task ClearCartAsync();
     }
 
+    public interface IIdentityCartDataService : ICartDataService
+    {
+        public Task<CartEntry[]> GetItemsAsync(IdentityUser user);
+        public Task<CartEntry> GetItemByIdAsync(int id, IdentityUser user);
+        public Task AddProductAsync(int productId, IdentityUser user);
+        public Task RemoveProductAsync(int productId, IdentityUser user);
+        public Task ClearCartAsync(IdentityUser user);
+    }
+
     public interface IOrderDataService : IModifiableDataService<Order>
     {
+        public Task<Order> GetItemByIdAsync(int id, IdentityUser user);
         public Task<Order> GetOrderByTokenAsync(Guid token);
         public Task NextStateAsync(int orderId);
         public Task PreviousStateAsync(int orderId);

@@ -40,9 +40,10 @@ namespace Trackmeal.UnitTests
             return productsService;
         }
 
-        public static async Task<IIdentityCartDataService> GetTestCartServiceAsync(ApplicationDbContext context)
+        public static async Task<IIdentityCartDataService> GetTestCartServiceAsync(ApplicationDbContext context, bool empty = false)
         {
             var cartService = new CartDataService(context, await GetTestProductsServiceAsync(context));
+            if (empty) return cartService;
 
             await cartService.AddProductAsync(1);
             await cartService.AddProductAsync(1);
@@ -54,6 +55,29 @@ namespace Trackmeal.UnitTests
             await cartService.AddProductAsync(3);
 
             return cartService;
+        }
+
+        public static async Task<(IIdentityCartDataService CartService, IdentityUser[] TestUsers)> GetTestIdentityCartServiceAsync(ApplicationDbContext context,
+            bool empty = false)
+        {
+            var cartService = await GetTestCartServiceAsync(context, true);
+            if(empty) return (cartService, Array.Empty<IdentityUser>());
+
+            var testUsers = GetTestUsers().ToArray();
+
+            await cartService.AddProductAsync(1, testUsers[0]);
+            await cartService.AddProductAsync(1, testUsers[0]);
+            await cartService.AddProductAsync(2, testUsers[0]);
+
+            await cartService.AddProductAsync(1, testUsers[1]);
+            await cartService.AddProductAsync(2, testUsers[1]);
+            await cartService.AddProductAsync(3, testUsers[1]);
+            await cartService.AddProductAsync(3, testUsers[1]);
+
+            await cartService.AddProductAsync(2, testUsers[2]);
+            await cartService.AddProductAsync(3, testUsers[2]);
+
+            return (cartService, testUsers);
         }
 
         public static async Task<IOrderDataService> GetTestOrderServiceAsync(ApplicationDbContext context)
@@ -70,6 +94,12 @@ namespace Trackmeal.UnitTests
             );
 
             return orderService;
+        }
+
+        private static IEnumerable<IdentityUser> GetTestUsers(uint count = 3)
+        {
+            for (uint i = 0; i < count; i++)
+                yield return new IdentityUser { Id = (i + 1).ToString(), UserName = $"User {i + 1}" };
         }
     }
 }

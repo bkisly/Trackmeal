@@ -126,7 +126,7 @@
         }
 
         [Fact]
-        public async Task GetCartEntriesAfterSubmittedOrder()
+        public async Task GetCartEntriesAfterSubmittedOrderTest()
         {
             await using var context = Helpers.GetInMemoryContext("GetEntriesAfterSubmitted_TestDb");
             var cartService = await Helpers.GetTestCartServiceAsync(context);
@@ -145,7 +145,7 @@
         }
 
         [Fact]
-        public async Task AddEntryAfterSubmittedOrder()
+        public async Task AddEntryAfterSubmittedOrderTest()
         {
             await using var context = Helpers.GetInMemoryContext("AddEntriesAfterSubmitted_TestDb");
             var cartService = await Helpers.GetTestCartServiceAsync(context);
@@ -165,7 +165,7 @@
         }
 
         [Fact]
-        public async Task RemoveEntryAfterSubmittedOrder()
+        public async Task RemoveEntryAfterSubmittedOrderTest()
         {
             await using var context = Helpers.GetInMemoryContext("RemoveEntriesAfterSubmitted_TestDb");
             var cartService = await Helpers.GetTestCartServiceAsync(context);
@@ -179,6 +179,36 @@
 
             Assert.Null(exceptionResult);
             Assert.Empty(await cartService.GetItemsAsync());
+        }
+
+        [Fact]
+        public async Task GetIdentityEntriesTest()
+        {
+            await using var context = Helpers.GetInMemoryContext("GetIdentityEntries_TestDb");
+            var (cartService, users) = await Helpers.GetTestIdentityCartServiceAsync(context);
+
+            var firstUserEntries = await cartService.GetItemsAsync(users[0]);
+            var secondUserEntries = await cartService.GetItemsAsync(users[1]);
+            var thirdUserEntries = await cartService.GetItemsAsync(users[2]);
+            var allEntries = await cartService.GetAllEntries();
+
+            Assert.Equal(2, firstUserEntries.Length);
+            Assert.Equal(3, secondUserEntries.Length);
+            Assert.Equal(2, thirdUserEntries.Length);
+
+            Assert.Equal(7, allEntries.Length);
+        }
+
+        [Fact]
+        public async Task ModifyIdentityEntriesTest()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Fact]
+        public async Task ClearIdentityEntriesTest()
+        {
+            throw new NotImplementedException();
         }
     }
 }

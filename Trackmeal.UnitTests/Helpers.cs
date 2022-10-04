@@ -61,9 +61,8 @@ namespace Trackmeal.UnitTests
             bool empty = false)
         {
             var cartService = await GetTestCartServiceAsync(context, true);
-            if(empty) return (cartService, Array.Empty<IdentityUser>());
-
             var testUsers = GetTestUsers().ToArray();
+            if (empty) return (cartService, testUsers);
 
             await cartService.AddProductAsync(1, testUsers[0]);
             await cartService.AddProductAsync(1, testUsers[0]);

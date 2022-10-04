@@ -202,13 +202,103 @@
         [Fact]
         public async Task ModifyIdentityEntriesTest()
         {
-            throw new NotImplementedException();
+            await using var context = Helpers.GetInMemoryContext("ModifyIdentityEntries_TestDb");
+            var (cartService, users) = await Helpers.GetTestIdentityCartServiceAsync(context, true);
+
+            await cartService.AddProductAsync(1, users[0]);
+            await cartService.AddProductAsync(2, users[0]);
+            await cartService.AddProductAsync(3, users[0]);
+            await cartService.AddProductAsync(3, users[0]);
+
+            await cartService.AddProductAsync(1, users[1]);
+            await cartService.AddProductAsync(1, users[1]);
+            await cartService.AddProductAsync(1, users[1]);
+
+            await cartService.AddProductAsync(2, users[2]);
+            await cartService.AddProductAsync(2, users[2]);
+            await cartService.AddProductAsync(3, users[2]);
+
+            var firstUserEntries = await cartService.GetItemsAsync(users[0]);
+            var secondUserEntries = await cartService.GetItemsAsync(users[1]);
+            var thirdUserEntries = await cartService.GetItemsAsync(users[2]);
+
+            Assert.Equal(3, firstUserEntries.Length);
+            Assert.Single( secondUserEntries);
+            Assert.Equal(2, thirdUserEntries.Length);
+            Assert.Equal(6, (await cartService.GetAllEntries()).Length);
+
+            await cartService.RemoveProductAsync(1, users[0]);
+            await cartService.RemoveProductAsync(2, users[0]);
+            await cartService.RemoveProductAsync(3, users[0]);
+
+            await cartService.RemoveProductAsync(1, users[1]);
+            await cartService.RemoveProductAsync(1, users[1]);
+            await cartService.RemoveProductAsync(1, users[1]);
+
+            await cartService.RemoveProductAsync(2, users[2]);
+
+            firstUserEntries = await cartService.GetItemsAsync(users[0]);
+            secondUserEntries = await cartService.GetItemsAsync(users[1]);
+            thirdUserEntries = await cartService.GetItemsAsync(users[2]);
+
+            Assert.Single(firstUserEntries);
+            Assert.Equal(1, firstUserEntries.First().Amount);
+
+            Assert.Empty(secondUserEntries);
+
+            Assert.Equal(2, thirdUserEntries.Length);
+            Assert.True(thirdUserEntries.All(entry => entry.Amount == 1));
         }
 
         [Fact]
         public async Task ClearIdentityEntriesTest()
         {
-            throw new NotImplementedException();
+            await using var context = Helpers.GetInMemoryContext("ClearIentityEntries_TestDb");
+            var (cartService, users) = await Helpers.GetTestIdentityCartServiceAsync(context, true);
+
+            await cartService.AddProductAsync(1, users[0]);
+            await cartService.AddProductAsync(2, users[0]);
+            await cartService.AddProductAsync(3, users[0]);
+            await cartService.AddProductAsync(3, users[0]);
+
+            await cartService.AddProductAsync(1, users[1]);
+            await cartService.AddProductAsync(1, users[1]);
+            await cartService.AddProductAsync(1, users[1]);
+
+            await cartService.AddProductAsync(2, users[2]);
+            await cartService.AddProductAsync(2, users[2]);
+            await cartService.AddProductAsync(3, users[2]);
+
+            await cartService.ClearCartAsync(users[0]);
+
+            var firstUserEntries = await cartService.GetItemsAsync(users[0]);
+            var secondUserEntries = await cartService.GetItemsAsync(users[1]);
+            var thirdUserEntries = await cartService.GetItemsAsync(users[2]);
+
+            Assert.Empty(firstUserEntries);
+            Assert.Single(secondUserEntries);
+            Assert.Equal(2, thirdUserEntries.Length);
+            Assert.Equal(3, (await cartService.GetAllEntries()).Length);
+
+            await cartService.ClearCartAsync(users[1]);
+            firstUserEntries = await cartService.GetItemsAsync(users[0]);
+            secondUserEntries = await cartService.GetItemsAsync(users[1]);
+            thirdUserEntries = await cartService.GetItemsAsync(users[2]);
+
+            Assert.Empty(firstUserEntries);
+            Assert.Empty(secondUserEntries);
+            Assert.Equal(2, thirdUserEntries.Length);
+            Assert.Equal(2, (await cartService.GetAllEntries()).Length);
+
+            await cartService.ClearCartAsync(users[2]);
+            firstUserEntries = await cartService.GetItemsAsync(users[0]);
+            secondUserEntries = await cartService.GetItemsAsync(users[1]);
+            thirdUserEntries = await cartService.GetItemsAsync(users[2]);
+
+            Assert.Empty(firstUserEntries);
+            Assert.Empty(secondUserEntries);
+            Assert.Empty(thirdUserEntries);
+            Assert.Empty(await cartService.GetAllEntries());
         }
     }
 }

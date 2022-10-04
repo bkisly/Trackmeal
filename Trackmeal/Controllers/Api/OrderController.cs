@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Trackmeal.Helpers;
 using Trackmeal.Models;
 using Trackmeal.Services;
 
@@ -7,6 +9,7 @@ namespace Trackmeal.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = Constants.RoleNames.Administrator)]
     public class OrderController : ControllerBase
     {
         private readonly IOrderDataService _orderService;

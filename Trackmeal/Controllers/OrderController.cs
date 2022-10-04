@@ -45,7 +45,7 @@ namespace Trackmeal.Controllers
         public async Task<IActionResult> Submit()
         {
             var order = new Order { Entries = (await _cartService.GetItemsAsync(await CurrentUser())).ToList() };
-            await _orderService.AddItemAsync(order);
+            await _orderService.AddItemAsync(order, await CurrentUser());
 
             return RedirectToAction(nameof(Summary), new { id = order.Id });
         }

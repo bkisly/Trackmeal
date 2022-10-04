@@ -38,6 +38,7 @@ namespace Trackmeal.Services
     {
         public Task<Order> GetItemByIdAsync(int id, IdentityUser user);
         public Task<Order> GetOrderByTokenAsync(Guid token);
+        public Task AddItemAsync(Order item, IdentityUser user);
         public Task NextStateAsync(int orderId);
         public Task PreviousStateAsync(int orderId);
         public Task SetStateAsync(int orderId, byte stateId);

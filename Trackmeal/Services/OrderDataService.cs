@@ -61,6 +61,12 @@ namespace Trackmeal.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task AddItemAsync(Order item, IdentityUser user)
+        {
+            item.UserId = user.Id;
+            await AddItemAsync(item);
+        }
+
         public async Task EditItemAsync(int id, Order newItemData)
         {
             var orderToEdit = await _context.Orders.SingleAsync(order => order.Id == id);

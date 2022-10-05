@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Trackmeal.Models;
 using Trackmeal.Services;
 using Trackmeal.ViewModels;
@@ -55,7 +57,13 @@ namespace Trackmeal.Controllers
         {
             try
             {
-                return View(await _orderService.GetItemByIdAsync(id, await CurrentUser()));
+                var order = await _orderService.GetItemByIdAsync(id, await CurrentUser());
+                var orderStatusUrl = $"{Request.Scheme}://{Request.Host}{Url.Action("Status", new { token = order.Token })}";
+                
+                return View(new OrderSummaryViewModel(orderStatusUrl)
+                {
+                    Order = order,
+                });
             }
             catch (InvalidOperationException)
             {

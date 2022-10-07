@@ -3,16 +3,30 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "globalize@1.7.0",
-      "destination": "wwwroot/lib/globalize/"
-    },
-    {
       "provider": "unpkg",
       "library": "@microsoft/signalr@latest",
       "destination": "wwwroot/lib/signalr/",
       "files": [
         "dist/browser/signalr.js",
         "dist/browser/signalr.min.js"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "globalize@1.7.0",
+      "destination": "wwwroot/lib/globalize/",
+      "files": [
+        "globalize.min.js",
+        "globalize.js"
+      ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "jquery-validation-globalize@latest",
+      "destination": "wwwroot/lib/jquery-validation-globalize/",
+      "files": [
+        "jquery.validate.globalize.min.js",
+        "jquery.validate.globalize.js"
       ]
     }
   ]

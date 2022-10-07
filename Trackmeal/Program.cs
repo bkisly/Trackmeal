@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Trackmeal.Data;
 using Trackmeal.Helpers;
+using Trackmeal.Hubs;
 using Trackmeal.Models;
 using Trackmeal.Services;
 
@@ -28,6 +29,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR();
 
 // By default require authenticated users
 builder.Services.AddAuthorization(options =>
@@ -77,5 +79,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+app.MapHub<OrderStatusHub>("/statusHub");
 
 app.Run();

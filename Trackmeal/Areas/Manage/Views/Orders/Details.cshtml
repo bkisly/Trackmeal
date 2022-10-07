@@ -13,10 +13,13 @@
     @await Html.PartialAsync("Order/_OrderDetails", Model)
 
     <h4>Current status: <span id="status-name">@Model.OrderStatus.Name</span></h4>
-    <button class="btn btn-danger" id="prev-state-btn"
+    <button class="btn btn-danger btn-status" id="prev-state-btn"
             disabled="@(Model.OrderStatusId <= (byte)OrderStatusEnum.Submitted)">Previous state</button>
-    <button class="btn btn-primary" id="next-state-btn"
+    <button class="btn btn-primary btn-status" id="next-state-btn"
             disabled="@(Model.OrderStatusId >= (byte)OrderStatusEnum.Completed)">Next state</button>
+    
+    <input type="hidden" id="order-id-input" value="@Model.Id"/>
+    <input type="hidden" id="order-status-id-input" value="@Model.OrderStatusId"/>
 </div>
 
 @section Scripts
@@ -38,5 +41,6 @@
             );
         });
     </script>
+    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/orderStatus.js"></script>
 }

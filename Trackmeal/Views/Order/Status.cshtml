@@ -9,8 +9,15 @@
 </div>
 
 @await Html.PartialAsync("Order/_OrderDetails", Model)
+<input type="hidden" id="order-id-input" value="@Model.Id"/>
 
 <h4>Current status of your order: 
     <span id="order-status-text">@Model.OrderStatus.Name</span> 
     (<span id="order-status-id">@Model.OrderStatus.Id</span> of @((byte)OrderStatusEnum.Completed))
 </h4>
+
+@section Scripts
+{
+    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/statusChangedReceiver.js"></script>
+}

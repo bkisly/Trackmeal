@@ -34,3 +34,10 @@ body {
 .field-validation-error {
     color: red;
 }
+
+/*Controls customizations*/
+
+.btn-square {
+    width: 35px;
+    height: 35px;
+}

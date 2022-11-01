@@ -3,50 +3,50 @@
     ViewData["Title"] = "Place an order";
 }
 
-<h2>@ViewData["Title"]</h2>
+<section id="order-header" class="py-4 bg-light text-center">
+    <h2>@ViewData["Title"]</h2>
+    <p>Complete your order here - choose whatever you'd like!</p>
+    <a class="btn btn-outline-secondary rounded-pill" asp-action="Cart">View your cart</a>
+</section>
 
-@if (Model.Products.Any())
-{
-    <a class="btn btn-primary" asp-action="Cart">View cart</a>
+<section id="order-body" class="py-4 mx-4">
+    @if (Model.Products.Any())
+    {
+        <div class="container">
+            <div id="products" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5 g-4 justify-content-center">
+                @foreach (var product in Model.Products)
+                {
+                    var amountInCart = @Model.ProductAmountInCart(product);
 
-    <table id="products" class="table table-bordered table-hover">
-        <thead class="table-primary">
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Order</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var product in Model.Products)
-        {
-            <tr>
-                <td>@product.Name</td>
-                <td>@product.Price</td>
-                <td>
-                    <ul class="list-unstyled list-group list-group-horizontal">
-                        @{
-                            var amountInCart = @Model.ProductAmountInCart(product);
-
-                            <li>
-                                <button class="btn btn-danger js-delete" data-product-id="@product.Id" disabled="@(amountInCart == 0)">-</button>
-                            </li>
-                            <li><p class="js-amount">@amountInCart</p></li>
-                            <li>
-                                <button class="btn btn-primary js-add" data-product-id="@product.Id" disabled="@(amountInCart == 100)">+</button>
-                            </li>
-                        }
-                    </ul>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>Currently there are no products in the database. Placing an order is not possible at the moment.</p>
-}
+                    <div class="col">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h3 class="h5">@product.Name</h3>
+                                <p class="text-muted">@product.Description</p>
+                                <p class="h6">$@product.Price</p>
+                                
+                                <div class="mt-3 hstack justify-content-center">
+                                    <button class="btn btn-outline-danger btn-sm rounded-circle js-delete" style="width: 35px; height: 35px;" 
+                                            data-product-id="@product.Id" disabled="@(amountInCart == 0)">-</button>
+                                    <p class="display-2 fs-2 mx-2 mt-2 js-amount">@amountInCart</p>
+                                    <button class="btn btn-outline-primary btn-sm rounded-circle js-add" style="width: 35px; height: 35px;" 
+                                            data-product-id="@product.Id" disabled="@(amountInCart == 100)">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center text-muted">
+            <h4>Currently there are no products in the database.</h4>
+            <p>Placing an order is not possible at the moment.</p>
+        </div>
+    }
+</section>
 
 @section Scripts
 {

@@ -1,29 +1,42 @@
 ﻿$(document).ready(function () {
+    let addReady = true;
+    let deleteReady = true;
+
     $("#products").on("click",
         ".js-add",
         function () {
-            const button = $(this);
-            $.ajax({
-                url: `/api/cart/${button.attr("data-product-id")}`,
-                method: "POST",
-                success: function () {
-                    updateDom(button.parent().parent());
-                }
-            });
+            if (addReady) {
+                addReady = false;
+                const button = $(this);
+
+                $.ajax({
+                    url: `/api/cart/${button.attr("data-product-id")}`,
+                    method: "POST",
+                    success: function () {
+                        updateDom(button.parent().parent());
+                        addReady = true;
+                    }
+                });
+            }
         }
     );
 
     $("#products").on("click",
         ".js-delete",
         function () {
-            const button = $(this);
-            $.ajax({
-                url: `/api/cart/${button.attr("data-product-id")}`,
-                method: "DELETE",
-                success: function () {
-                    updateDom(button.parent().parent(), true);
-                }
-            });
+            if (deleteReady) {
+                deleteReady = false;
+                const button = $(this);
+
+                $.ajax({
+                    url: `/api/cart/${button.attr("data-product-id")}`,
+                    method: "DELETE",
+                    success: function () {
+                        updateDom(button.parent().parent(), true);
+                        deleteReady = true;
+                    }
+                });
+            }
         }
     );
 });

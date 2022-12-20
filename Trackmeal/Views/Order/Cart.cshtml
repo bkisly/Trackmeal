@@ -1,46 +1,63 @@
 ﻿@model IEnumerable<CartEntry>
 @{
     ViewData["Title"] = "Cart";
+    var anyProducts = Model.Any();
 }
 
-<h2>Your cart</h2>
-<a class="btn btn-primary" asp-action="Index">Back to the products</a>
+<section id="cart-header" class="py-4 bg-light text-center">
+    <h2>Your cart</h2>
+    <p>Check if you've chosen everything you'd like! Submit the order when you're ready to go.</p>
+    <a class="btn btn-outline-secondary rounded-pill" asp-action="Index">Back to the products</a>
+    @if (anyProducts)
+    {
+        <button id="clear-btn" class="btn btn-outline-danger rounded-pill">Clear the cart</button>
+    }
+</section>
 
-@if (Model.Any())
-{
-    <button class="btn btn-danger" id="clear-btn">Clear cart</button>
-    <p>Showing @Model.Count() products that are added to the cart</p>
-
-    <table class="table table-bordered table-hover">
-        <thead class="table-primary">
-        <tr>
-            <th>Name</th>
-            <th>Amount</th>
-            <th>Total price</th>
-        </tr>
-        </thead>
-        <tbody>
-            @foreach (var entry in Model)
+<section id="cart-body" class="py-4">
+    @if (anyProducts)
+    {
+        <div class="container-sm">
+            @foreach (var product in Model)
             {
-                <tr>
-                    <td>@entry.Product.Name</td>
-                    <td>@entry.Amount</td>
-                    <td>@entry.TotalPrice</td>
-                </tr>
+                <div class="card my-2">
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    <h5>@product.Product.Name</h5>
+                                    <p class="text-muted">@product.Product.Description</p>
+                                    <p>Total price: <strong>$@product.TotalPrice</strong></p>
+                                </div>
+                                <div class="col-auto my-auto">
+                                    <p class="display-6 text-muted">@product.Amount</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
-        </tbody>
-    </table>
-
-    <h3>Total price: @Model.Sum(entry => entry.TotalPrice)</h3>
-
-    <form method="post" asp-action="Submit">
-        <button class="btn btn-success" type="submit">Submit order</button>
-    </form>
-}
-else
-{
-    <p>There are no products in the cart yet.</p>
-}
+            
+            <div class="justify-content-around hstack gap-5">
+                <div class="mt-4 text-center">
+                    <small>Total price:</small>
+                    <p class="display-5">$@Model.Sum(entry => entry.TotalPrice)</p>
+                </div>
+                
+                <form method="post" asp-action="Submit">
+                    <button type="submit" class="btn btn-outline-success rounded-pill btn-lg my-auto">Submit order</button>
+                </form>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center text-muted">
+            <h4>Currently there are no products in the cart.</h4>
+            <p>View the products and choose something suitable for you.</p>
+        </div>
+    }
+</section>
 
 @section Scripts
 {

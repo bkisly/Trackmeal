@@ -1,30 +1,50 @@
 ﻿@model Order
 
-<ul>
-    <li><strong>Date ordered: </strong>@Model.DateOrdered</li>
-    <li><strong>Order token: </strong>@Model.Token</li>
-</ul>
+<section id="order-details-data" class=" bg-light p-4">
+    <div class="container-sm">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <p class="fw-bold mb-1">Date ordered: <br/></p>
+                <p class="display-6 fs-4">@Model.DateOrdered</p>
+            </li>
+            <li class="list-group-item">
+                <p class="fw-bold mb-1">Order token: <br/></p>
+                <p class="display-6 fs-4">@Model.Token</p>
+            </li>
+        </ul>
+    </div>
+</section>
 
-<strong>Here are the products that were ordered:</strong>
+<section id="order-details-list" class="p-4 bg-light">
+    <h4 class="mb-4 text-center">Here are the products which were ordered</h4>
 
-<table class="table table-hover table-bordered">
-    <thead class="table-primary">
-    <tr>
-        <th>Name</th>
-        <th>Amount</th>
-        <th>Total price</th>
-    </tr>
-    </thead>
-    <tbody>
+    <div class="container-sm mb-4">
         @foreach (var entry in Model.Entries)
         {
-            <tr>
-                <td>@entry.Product.Name</td>
-                <td>@entry.Amount</td>
-                <td>@(entry.Product.Price * entry.Amount)</td>
-            </tr>
+            <div class="card my-2">
+                <div class="card-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <p class="h5">@entry.Product.Name</p>
+                                <p>@entry.Product.Description</p>
+                            </div>
+                            <div class="col-auto my-auto">
+                                <div class="hstack">
+                                    <p class="display-6 fs-3 my-auto text-muted me-2">@entry.Amount</p>
+                                    <div class="vr"></div>
+                                    <p class="display-6 fs-3 my-auto ms-2">$@entry.TotalPrice</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
-
-<h4>Total price: @Model.TotalPrice</h4>
+    </div>
+    
+    <div class="text-center">
+        <p class="text-center mb-1">Total price</p>
+        <p class="display-5 mt-1">$@Model.TotalPrice</p>
+    </div>
+</section>

@@ -37,8 +37,8 @@ function updateStateView(orderStatus) {
 }
 
 function sendStatus(connection, orderId, orderStatus) {
-    console.log(`order id: ${orderId}, status id: ${orderStatus.id}, status name: ${orderStatus.name}`);
-    connection.invoke("SendNewStatus", orderId, orderStatus.id, orderStatus.name).catch(function (err) {
+    console.log(`order id: ${orderId}, status id: ${orderStatus.id}, status name: ${orderStatus.name}, status descr: ${orderStatus.description}`);
+    connection.invoke("SendNewStatus", orderId, orderStatus.id, orderStatus.name, orderStatus.description).catch(function (err) {
         return console.error(err.toString());
     });
 }

@@ -11,7 +11,7 @@
 <section id="status-progress" class="text-center p-4">
     <div class="container-sm justify-content-center">
         <h4 id="order-status-text" class="display-6">@Model.OrderStatus.Name</h4>
-        <p>Your order has been sent to the restaurant. Now it has to be confirmed by the restaurant.</p>
+        <p id="order-status-description">@Model.OrderStatus.Description</p>
         <div class="progress my-4">
             <div id="status-progressbar" 
                  class="progress-bar progress-bar-striped progress-bar-animated bg-success" 

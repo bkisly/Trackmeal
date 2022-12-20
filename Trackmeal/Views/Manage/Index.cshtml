@@ -2,14 +2,14 @@
     ViewData["Title"] = "Manage";
 }
 
-<div class="text-center">
+<div class="text-center p-4">
     <h2>Trackmeal management center</h2>
-    <h4>This is the place where you can manage products and orders</h4>
+    <p class="mb-5">This is the place where you can manage products and orders</p>
     
     <div class="container">
         <div class="row">
             <div class="col">
-                <a class="btn btn-primary" asp-area="Manage" asp-controller="Products" asp-action="Index">
+                <a class="btn btn-outline-primary btn-lg rounded-pill mb-3" asp-area="Manage" asp-controller="Products" asp-action="Index">
                     <strong>Products</strong>
                 </a>
                 <p>
@@ -18,8 +18,8 @@
                     and price.
                 </p>
             </div>
-            <div class="col">
-                <a class="btn btn-success" asp-area="Manage" asp-controller="Orders" asp-action="Index">
+            <div class="col border-start">
+                <a class="btn btn-outline-success btn-lg rounded-pill mb-3" asp-area="Manage" asp-controller="Orders" asp-action="Index">
                     <strong>Orders</strong>
                 </a>
                 <p>

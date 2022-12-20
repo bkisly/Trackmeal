@@ -6,7 +6,8 @@
         function (orderId, newStatusId, newStatusName) {
             if (parseInt($("#order-id-input").attr("value")) === orderId) {
                 $("#order-status-text").text(newStatusName);
-                $("#order-status-id").text(newStatusId);
+                $("#status-progressbar").attr("aria-valuenow", newStatusId);
+                $("#status-progressbar").css("width", `${(newStatusId / 4) * 100}%`);
             }
         }
     );

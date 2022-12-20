@@ -3,21 +3,30 @@
     ViewData["Title"] = "Order tracking";
 }
 
-<div class="text-center">
+<section id="status-header" class="text-center bg-light p-4">
     <h2>Track your order</h2>
-    <h4>Thank you for your order! Here you are able to track the status of your order.</h4>
-</div>
+    <p>Thank you for your order! Here you are able to track the status of your order.</p>
+</section>
+
+<section id="status-progress" class="text-center p-4">
+    <div class="container-sm justify-content-center">
+        <h4 id="order-status-text" class="display-6">@Model.OrderStatus.Name</h4>
+        <p>Your order has been sent to the restaurant. Now it has to be confirmed by the restaurant.</p>
+        <div class="progress my-4">
+            <div id="status-progressbar" 
+                 class="progress-bar progress-bar-striped progress-bar-animated bg-success" 
+                 role="progressbar" aria-label="Order progress" 
+                 style="width: @(Model.OrderStatusId * 100 / 4)%;" 
+                 aria-valuenow="@Model.OrderStatusId" aria-valuemin="0" aria-valuemax="4"></div>
+        </div>
+    </div>
+</section>
 
 @await Html.PartialAsync("Order/_OrderDetails", Model)
 <input type="hidden" id="order-id-input" value="@Model.Id"/>
 
-<h4>Current status of your order: 
-    <span id="order-status-text">@Model.OrderStatus.Name</span> 
-    (<span id="order-status-id">@Model.OrderStatus.Id</span> of @((byte)OrderStatusEnum.Completed))
-</h4>
-
 @section Scripts
 {
-    <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/statusChangedReceiver.js"></script>
 }

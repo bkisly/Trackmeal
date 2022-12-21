@@ -5,22 +5,28 @@
     ViewData["Title"] = $"Details of order with ID {Model.Id}";
 }
 
- <h2>@ViewData["Title"]</h2>
-<div data-order-id="@Model.Id">
-    @Html.ActionLink("Back to orders", "Index", new { }, new { @class = "btn btn-primary" })
-    <button class="btn btn-danger" id="delete-button" data-order-id="@Model.Id">Delete order</button>
+<section id="order-details-header" class="p-4 bg-light text-center">
+    <h2 class="mb-4">@ViewData["Title"]</h2>
+    <div data-order-id="@Model.Id">
+        @Html.ActionLink("Back to orders", "Index", new { }, new { @class = "btn btn-outline-secondary rounded-pill" })
+        <button class="btn btn-outline-danger rounded-pill" id="delete-button" data-order-id="@Model.Id">Delete order</button>
+    </div>
+</section>
 
-    @await Html.PartialAsync("Order/_OrderDetails", Model)
+<section id="order-details-status" data-order-id="@Model.Id" class="p-4 text-center">
+    <p class="mb-1">Current status:</p>
+    <p id="status-name" class="display-6 mb-4">@Model.OrderStatus.Name</p>
 
-    <h4>Current status: <span id="status-name">@Model.OrderStatus.Name</span></h4>
-    <button class="btn btn-danger" id="prev-state-btn"
+    <button class="btn btn-outline-danger rounded-pill" id="prev-state-btn"
             disabled="@(Model.OrderStatusId <= (byte)OrderStatusEnum.Submitted)">Previous state</button>
-    <button class="btn btn-primary" id="next-state-btn"
+    <button class="btn btn-outline-primary rounded-pill" id="next-state-btn"
             disabled="@(Model.OrderStatusId >= (byte)OrderStatusEnum.Completed)">Next state</button>
-    
-    <input type="hidden" id="order-id-input" value="@Model.Id"/>
-    <input type="hidden" id="order-status-id-input" value="@Model.OrderStatusId"/>
-</div>
+</section>
+
+@await Html.PartialAsync("Order/_OrderDetails", Model)
+
+<input type="hidden" id="order-id-input" value="@Model.Id"/>
+<input type="hidden" id="order-status-id-input" value="@Model.OrderStatusId"/>
 
 @section Scripts
 {

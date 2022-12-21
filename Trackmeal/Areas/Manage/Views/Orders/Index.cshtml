@@ -4,6 +4,9 @@
     ViewData["Title"] = "Manage orders";
 }
 
-<h2>Manage orders</h2>
-@Html.ActionLink("View completed orders", "Completed", new { }, new { @class = "btn btn-primary" })
+<section id="manage-orders-header" class="bg-light py-4 text-center">
+    <h2 class="mb-4">Manage orders</h2>
+    @Html.ActionLink("View completed orders", "Completed", new { }, new { @class = "btn btn-outline-secondary rounded-pill" })
+</section>
+
 @await Html.PartialAsync("Order/_OrdersList", Model)

@@ -4,39 +4,45 @@
     ViewData["Title"] = "Manage products";
 }
 
-<h2>@ViewData["Title"]</h2>
-@Html.ActionLink("New product", "New", "Products", new { }, new { @class = "btn btn-primary form-group" })
+<section id="products-header" class="bg-light p-4 text-center">
+    <h2 class="mb-4">@ViewData["Title"]</h2>
+    @Html.ActionLink("New product", "New", "Products", new { }, new { @class = "btn btn-outline-secondary rounded-pill" })
+</section>
 
 @if (Model.Any())
 {
-    <table class="table table-hover table-bordered form-group" id="products">
-        <thead class="table-primary">
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
+    <div class="container-sm text-center">
+        <table class="table table-hover table-borderless table-striped" id="products">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
             @foreach (var product in Model)
             {
+                var descriptionClass = product.Description == null ? "text-muted fst-italic" : "";
+
                 <tr>
                     <td>@product.Name</td>
-                    <td>@product.Description</td>
-                    <td>@product.Price</td>
+                    <td class="@descriptionClass">@(product.Description ?? "None")</td>
+                    <td>$@product.Price</td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = product.Id }, new { @class = "btn btn-light" })
-                        <button class="btn btn-danger js-delete" data-product-id="@product.Id">Delete</button>
+                        @Html.ActionLink("Edit", "Edit", new { id = product.Id }, new { @class = "btn btn-outline-secondary rounded-pill" })
+                        <button class="btn btn-outline-danger rounded-pill js-delete" data-product-id="@product.Id">Delete</button>
                     </td>
                 </tr>
             }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 }
 else
 {
-    <p>There are no products in the database.</p>
+    <p class="h4 text-muted text-center p-4">There are no products in the database.</p>
 }
 
 @section Scripts

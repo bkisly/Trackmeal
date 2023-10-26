@@ -24,9 +24,6 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">Order</a>
                         </li>
                         @if (User.IsInRole(Constants.RoleNames.Administrator))
@@ -41,15 +38,13 @@
             </div>
         </nav>
     </header>
-    @*<div class="container">*@
-        <main role="main">
-            @RenderBody()
-        </main>
-    @*</div>*@
+    <main role="main">
+        @RenderBody()
+    </main>
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - Trackmeal - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2022 - Trackmeal
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

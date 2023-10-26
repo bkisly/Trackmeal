@@ -25,7 +25,7 @@ builder.Services.AddScoped<IModifiableDataService<Product>, ProductsDataService>
 builder.Services.AddScoped<IIdentityCartDataService, CartDataService>();
 builder.Services.AddScoped<IOrderDataService, OrderDataService>();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();

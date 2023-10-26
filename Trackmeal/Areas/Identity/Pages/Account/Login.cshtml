@@ -1,0 +1,43 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<section class="p-3 text-center justify-content-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+    <div class="container">
+        <form id="account" method="post">
+            <p class="fs-5">Use a local account to log in.</p>
+            <hr/>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating p-1">
+                <input asp-for="Input.Email" class="form-control m-1" autocomplete="username" aria-required="true"/>
+                <label asp-for="Input.Email" class="form-label m-1"></label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating p-1">
+                <input asp-for="Input.Password" class="form-control m-1" autocomplete="current-password" aria-required="true"/>
+                <label asp-for="Input.Password" class="form-label m-1"></label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div>
+                <div class="checkbox">
+                    <label asp-for="Input.RememberMe" class="form-label">
+                        <input class="form-check-input" asp-for="Input.RememberMe"/>
+                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                    </label>
+                </div>
+            </div>
+            <div>
+                <button id="login-submit" type="submit" class="btn btn-lg btn-outline-primary rounded-pill">Log in</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -88,7 +88,7 @@ namespace Trackmeal.UnitTests
                 {
                     Id = 1,
                     Entries = (await cartService.GetItemsAsync()).ToList(),
-                    OrderStatus = new OrderStatus { Id = 1, Name = "Submitted" }
+                    OrderStatus = new OrderStatus { Id = 1, Name = "Submitted", Description = "Submitted order" }
                 }
             );
 

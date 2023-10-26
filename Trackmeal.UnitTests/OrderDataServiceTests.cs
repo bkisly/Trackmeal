@@ -14,7 +14,7 @@
             {
                 Id = 1,
                 Entries = entriesInCart.ToList(),
-                OrderStatus = new OrderStatus { Name = "Submitted" }
+                OrderStatus = new OrderStatus { Name = "Submitted", Description = "Submitted order" }
             });
 
             var order = await orderService.GetItemByIdAsync(1);
@@ -44,7 +44,7 @@
             {
                 Id = 1,
                 Entries = (await cartService.GetItemsAsync()).ToList(),
-                OrderStatus = new OrderStatus { Name = "Submitted" }
+                OrderStatus = new OrderStatus { Name = "Submitted", Description = "Submitted order" }
             });
 
             Assert.NotEmpty(await orderService.GetItemsAsync());

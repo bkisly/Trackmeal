@@ -17,7 +17,7 @@ Main features:
 
 One of the problems of many fast-food restaurants is, in my opinion, the number of people gathering together at the checkout while awaiting for their orders. 
 The reason for it is that usually there is only one, central screen indicating whether an order is ready to collect or not.
-A good solution for it is to provide the customers a convenient way to track their orders via their smartphones, without the neet to stand at the collect zone - and this is what Trackmeal has achieved.
+A good solution for it is to provide the customers a convenient way to track their orders via their smartphones, without the need to stand at the collect zone - and this is what Trackmeal has achieved.
 
 A typical simulation looks as follows:
 

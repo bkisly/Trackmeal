@@ -41,3 +41,13 @@ body {
     width: 35px;
     height: 35px;
 }
+
+/*Miscellaneous*/
+
+.img-header-index {
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    background-size: cover;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("../assets/header-index.jpg");
+}

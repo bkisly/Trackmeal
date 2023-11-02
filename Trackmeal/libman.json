@@ -12,7 +12,6 @@
       ]
     },
     {
-      "provider": "cdnjs",
       "library": "globalize@1.7.0",
       "destination": "wwwroot/lib/globalize/",
       "files": [
@@ -28,6 +27,10 @@
         "jquery.validate.globalize.min.js",
         "jquery.validate.globalize.js"
       ]
+    },
+    {
+      "library": "bootstrap-icons@1.11.1",
+      "destination": "wwwroot\\lib\\bootstrap-icons"
     }
   ]
 }

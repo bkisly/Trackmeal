@@ -35,5 +35,8 @@ jobs:
       run: | 
         echo "Checking working directory..."
         pwd
+        echo "Checking available files..."
+        ls
+        ls Trackmeal/
         docker compose build
 

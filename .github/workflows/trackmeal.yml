@@ -32,5 +32,8 @@ jobs:
     needs: build
     steps:
     - name: Compose Docker container
-      run: docker compose build
+      run: | 
+        echo "Checking working directory..."
+        pwd
+        docker compose build
 

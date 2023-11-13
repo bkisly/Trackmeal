@@ -31,5 +31,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Compose Docker container
-      working-directory: Trackmeal/
       run: docker compose build

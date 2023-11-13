@@ -8,7 +8,7 @@ services:
         ports:
           - "8080:80"
         environment:
-          ConnectionStrings:DefaultConnection: "${CONNECTION_STRING}"
+          ConnectionStrings:DefaultConnection: "Server=db;Database=TrackmealDb;User=sa;Password=${SA_PASSWORD};"
           InitialAdminPassword: "${ADMIN_PASSWORD}"
         depends_on:
           - db
